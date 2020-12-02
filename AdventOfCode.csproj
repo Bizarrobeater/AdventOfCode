@@ -9,6 +9,9 @@
     <None Update="DataSources\AdventCode1Dec1input.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="DataSources\AdventCode2Dec1Input.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

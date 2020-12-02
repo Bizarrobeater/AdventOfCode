@@ -6,7 +6,9 @@ namespace AdventOfCode
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var test = new Dec2();
+            Console.WriteLine("Valid Passwords: " +
+                test.SolutionPart1());
         }
     }
 }
