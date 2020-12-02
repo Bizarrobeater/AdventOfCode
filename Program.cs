@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace AdventOfCode
 {
@@ -6,9 +7,14 @@ namespace AdventOfCode
     {
         static void Main(string[] args)
         {
-            var test = new Dec2();
-            Console.WriteLine("Valid Passwords: " +
-                test.SolutionPart2());
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            
+            var test = new Dec1Part2();
+            Console.WriteLine(test.SolutionPart2());
+            
+            stopwatch.Stop();
+            Console.WriteLine(stopwatch.ElapsedMilliseconds);
         }
     }
 }

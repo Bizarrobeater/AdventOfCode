@@ -5,18 +5,71 @@ using System.Linq;
 
 namespace AdventOfCode
 {
-    class Dec1Part2
+    public class Dec1Part2 : ISolution
     {
-        public void Solution()
-        {
-            List<string> dataStrList = File.ReadAllLines(@"DataSources\AdventCode1Dec1input.txt").ToList();
-            List<int> dataList = dataStrList.Select(s => Convert.ToInt32(s)).ToList();
+        List<int> dataList;
 
+        public Dec1Part2()
+        {
+            var dataStrList = new FileToList("AdventCode1Dec1Input.txt").DataStrList; 
+            dataList = dataStrList.Select(s => Convert.ToInt32(s)).ToList();
+        }
+
+        public int SolutionPart1()
+        {
+            List<int> tempList = dataList;
+            tempList.Sort();
+            int goalNumber;
+            BinarySearch search = new BinarySearch(tempList);
+            int resultIndex;
+            
+
+            foreach (int i in tempList)
+            {
+                goalNumber = 2020 - i;
+                resultIndex = search.FindIndex(goalNumber);
+
+
+                if (resultIndex >= 0)
+                {
+                    return i * tempList[resultIndex];
+                }
+            }
+
+            return -1;
+        }
+
+        public int SolutionPart2()
+        {
+            List<int> tempList = dataList;
+            tempList.Sort();
+            int goalNumber;
+            BinarySearch baseSearch = new BinarySearch(tempList);
+            int resultIndex;
+
+            for (int i = 0; i < tempList.Count - 2; i++)
+            {
+                for (int j = tempList.Count - 1; j > i; j--)
+                {
+                    goalNumber = 2020 - tempList[i] - tempList[j];
+                    resultIndex = baseSearch.FindIndex(goalNumber);
+
+                    if (resultIndex >= 0)
+                    {
+                        return tempList[i] * tempList[j] * tempList[resultIndex];
+                    }
+                }
+            }
+
+            return -1;
+        }
+
+
+        public int Solution()
+        {
             int first = 0;
             int second = 0;
             int third = 0;
-            bool foundResult = false;
-            int result = 0;
 
             for (int i = 0; i < dataList.Count - 3; i++)
             {
@@ -31,18 +84,14 @@ namespace AdventOfCode
                             third = dataList[k];
                             if (first + second + third == 2020)
                             {
-                                result = first * second * third;
-                                foundResult = true;
-                                break;
+                                return first * second * third;
+
                             }
                         }
                     }
-                    if (foundResult) break;
                 }
-                if (foundResult) break;
             }
-
-            Console.WriteLine($"{first}, {second}, {third}\nResult: {result}");
+            return -1;
         }
     }
 }
