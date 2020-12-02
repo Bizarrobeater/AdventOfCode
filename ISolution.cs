@@ -6,8 +6,8 @@ namespace AdventOfCode
 {
     interface ISolution
     {
-        public string SolutionPart1();
-        public string SolutionPart2();
+        public int SolutionPart1();
+        public int SolutionPart2();
 
 
     }

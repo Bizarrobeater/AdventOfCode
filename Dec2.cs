@@ -48,7 +48,7 @@ namespace AdventOfCode
                 (password[firstInd - 1] != letter && password[lastInd - 1] == letter));
         }
 
-        public string SolutionPart1()
+        public int SolutionPart1()
         {
             int validCount = 0;
             foreach (string passwordStr in DataList)
@@ -58,10 +58,10 @@ namespace AdventOfCode
                     validCount++;
                 }
             }
-            return validCount.ToString();
+            return validCount;
         }
 
-        public string SolutionPart2()
+        public int SolutionPart2()
         {
             int validCount = 0;
             foreach (string passwordStr in DataList)
@@ -71,7 +71,7 @@ namespace AdventOfCode
                     validCount++;
                 }
             }
-            return validCount.ToString();
+            return validCount;
 
         }
     }
