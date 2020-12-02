@@ -8,7 +8,7 @@ namespace AdventOfCode
         {
             var test = new Dec2();
             Console.WriteLine("Valid Passwords: " +
-                test.SolutionPart1());
+                test.SolutionPart2());
         }
     }
 }
