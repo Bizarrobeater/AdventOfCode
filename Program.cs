@@ -7,14 +7,14 @@ namespace AdventOfCode
     {
         static void Main(string[] args)
         {
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
+            //var stopwatch = new Stopwatch();
+            //stopwatch.Start();
             
-            var test = new Dec1Part2();
-            Console.WriteLine(test.SolutionPart2());
+            var test = new Dec3();
+            Console.WriteLine(test.SolutionPart2Long());
             
-            stopwatch.Stop();
-            Console.WriteLine(stopwatch.ElapsedMilliseconds);
+            //stopwatch.Stop();
+            //Console.WriteLine(stopwatch.ElapsedMilliseconds);
         }
     }
 }

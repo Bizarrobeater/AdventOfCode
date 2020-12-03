@@ -15,6 +15,8 @@ namespace AdventOfCode
             //List<int> dataList = dataStrList.Select(s => Convert.ToInt32(s)).ToList();
         }
 
+
+
         
     }
 }
