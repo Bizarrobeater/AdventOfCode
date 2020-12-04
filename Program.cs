@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 
 namespace AdventOfCode
 {
@@ -9,10 +10,10 @@ namespace AdventOfCode
         {
             //var stopwatch = new Stopwatch();
             //stopwatch.Start();
-            
-            var test = new Dec3();
-            Console.WriteLine(test.SolutionPart2Long());
-            
+
+            var test = new Dec4();
+            Console.WriteLine(test.SolutionPart1());
+
             //stopwatch.Stop();
             //Console.WriteLine(stopwatch.ElapsedMilliseconds);
         }

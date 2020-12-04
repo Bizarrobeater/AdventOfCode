@@ -13,7 +13,7 @@ namespace AdventOfCode
 
         public Dec2()
         {
-            dataList = new FileToList("AdventCode2Dec1Input.txt").DataStrList;
+            dataList = ReadDataFile.FileToListSimple("AdventCode2Dec1Input.txt");
         }
 
         private bool validatePasswordPart1(string passwordInfo)

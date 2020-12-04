@@ -11,7 +11,7 @@ namespace AdventOfCode
 
         public Dec1Part2()
         {
-            var dataStrList = new FileToList("AdventCode1Dec1Input.txt").DataStrList; 
+            var dataStrList = ReadDataFile.FileToListSimple("AdventCode1Dec1Input.txt"); 
             dataList = dataStrList.Select(s => Convert.ToInt32(s)).ToList();
         }
 
