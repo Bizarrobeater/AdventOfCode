@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Text;
 
 namespace AdventOfCode
 {
@@ -19,13 +20,19 @@ namespace AdventOfCode
 
         public int SolutionPart1()
         {
-            return passportList.ValidPassports(); ;
+            return passportList.ValidPassportsSimple();
         }
 
         public int SolutionPart2()
         {
-            return -1;
+            return passportList.ValidPassportsComplex();
         }
+
+        public void testc()
+        {
+            passportList.ValidPassportsComplex();
+        }
+
 
         private class PassportList
         {
@@ -41,7 +48,7 @@ namespace AdventOfCode
                 }
             }
 
-            public int ValidPassports()
+            public int ValidPassportsSimple()
             {
                 int counter = 0;
                 foreach(Passport passport in passports)
@@ -53,7 +60,21 @@ namespace AdventOfCode
                 }
                 return counter;
             }
+
+            public int ValidPassportsComplex()
+            {
+                int counter = 0;
+                foreach (Passport passport in passports)
+                {
+                    if (passport.ValidPassportComplex)
+                    {
+                        counter++;
+                    }
+                }
+                return counter;
+            }
         }
+
 
         private class Passport
         {
@@ -75,7 +96,8 @@ namespace AdventOfCode
             public int Byr { get => byr; set => byr = value; }
             public int Iyr { get => iyr; set => iyr = value; }
             public int Eyr { get => eyr; set => eyr = value; }
-            public bool ValidPassportSimple { get => ValidatePassportSimple(); }            
+            public bool ValidPassportSimple { get => ValidatePassportSimple(); }  
+            public bool ValidPassportComplex { get => ValidatePassportComplex();  }
             
             public Passport(string passportData)
             {
@@ -89,13 +111,58 @@ namespace AdventOfCode
 
             private bool HeightValidator()
             {
-                return true;
+                Regex rx = new Regex(@"^(\d*) ?(cm|in)$");
+                Match match = rx.Match(height);
+                GroupCollection groups = match.Groups;
+
+                string type = groups[2].ToString();
+
+                int number;
+                if (Int32.TryParse(groups[1].ToString(), out number))
+                {
+                    return ((type == "cm" && number >= 150 && number <= 193) ||
+                        (type == "in" && number >= 59 && number <= 76));
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+
+            private bool HairColorValidator()
+            {
+                Regex rx = new Regex(@"^#[0-9a-f]{6}$");
+                Match match = rx.Match(Hcl);
+                return match.Success;
+            }
+
+            private bool EyeColorValidator()
+            {
+                List<string> eyeColors = new List<string> { "amb", "blu", "brn", "gry", "grn", "hzl", "oth" };
+                return eyeColors.Contains(Ecl);
+            }
+
+            private bool PassportIDValidator()
+            {
+                Regex rx = new Regex(@"^[0-9]{9}$");
+                Match match = rx.Match(Pid);
+                return match.Success;
             }
 
             private bool ValidatePassportComplex()
             {
-
+                return
+                    ValidPassportSimple &&
+                    (Byr >= 1920 && Byr <= 2002) &&
+                    (Iyr >= 2010 && Iyr <= 2020) &&
+                    (Eyr >= 2020 && Eyr <= 2030) &&
+                    HeightValidator() &&
+                    HairColorValidator() &&
+                    EyeColorValidator() &&
+                    PassportIDValidator();
             }
+
 
             private bool ValidatePassportSimple()
             {
@@ -161,8 +228,29 @@ namespace AdventOfCode
                 return parts.ToList();
             }
 
+            //public void PrintPassport()
+            //{
+            //    StringBuilder topBuilder = new StringBuilder();
+            //    StringBuilder botBuilder = new StringBuilder();
 
+            //    string[] strings = new string[] { Ecl, Height, Pid, Hcl };
+            //    string[] nameStr = new string[] { "ecl", "hgt", "pid", "hcl" };
+            //    int[] ints = new int[] { Byr, Iyr, Eyr };
+            //    string[] nameInt = new string[] { "byr", "iyr", "eyr" };
 
+            //    for (int i = 0; i < strings.Length; i++)
+            //    { 
+            //        topBuilder.AppendFormat(@" {0}|", nameStr[i].PadRight(10));
+            //        botBuilder.AppendFormat(@" {0}|", strings[i].PadRight(10));
+            //    }
+            //    for (int i = 0; i < ints.Length; i++)
+            //    {
+            //        topBuilder.AppendFormat(@" {0}|", nameInt[i].PadRight(10));
+            //        botBuilder.AppendFormat(@" {0}|", ints[i].ToString().PadRight(10));
+            //    }
+            //    topBuilder.AppendFormat(@"{1}{0}", botBuilder, Environment.NewLine);
+            //    Console.WriteLine(topBuilder.ToString());
+            }
         }
     }
 

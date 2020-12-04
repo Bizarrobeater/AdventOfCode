@@ -12,8 +12,7 @@ namespace AdventOfCode
             //stopwatch.Start();
 
             var test = new Dec4();
-            Console.WriteLine(test.SolutionPart1());
-
+            Console.WriteLine(test.SolutionPart2());
             //stopwatch.Stop();
             //Console.WriteLine(stopwatch.ElapsedMilliseconds);
         }
