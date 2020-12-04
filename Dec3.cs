@@ -14,7 +14,7 @@ namespace AdventOfCode
 
         public Dec3()
         {
-            dataList = new FileToList("AdventCode3Dec.txt").DataStrList;
+            dataList = ReadDataFile.FileToListSimple("AdventCode3Dec.txt");
             width = dataList[0].Length;
         }
 
