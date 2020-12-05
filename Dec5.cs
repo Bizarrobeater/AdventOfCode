@@ -9,6 +9,7 @@ namespace AdventOfCode
     {
         List<string> dataList;
         List<Seat> seatsSorted = new List<Seat>();
+        List<Seat> seatSortedTest = new List<Seat>();
 
         public Dec5()
         {
@@ -16,18 +17,24 @@ namespace AdventOfCode
             foreach (string rawSeat in dataList)
             {
                 seatsSorted.Add(new Seat(rawSeat));
+                seatSortedTest.Add(new Seat(rawSeat));
             }
             // Sorts the seats based on seatId
             seatsSorted.Sort((x, y) => x.SeatId.CompareTo(y.SeatId));
+            seatSortedTest.Sort((x, y) => x.CompareTo(y));
         }
 
         public void test()
         {
-            foreach (Seat seat in seatsSorted)
+            List<int> intList = new List<int> { 1, 5, 10, 78, 750, 201 };
+
+            foreach (int i in intList)
             {
-                seat.PrintSeatData();
+                seatsSorted[i].PrintSeatData();
+                seatSortedTest[i].PrintSeatData();
                 Console.WriteLine("\n\n");
             }
+            Console.Write(seatsSorted == seatSortedTest);
         }
 
         public int SolutionPart1()
@@ -82,6 +89,11 @@ namespace AdventOfCode
             private int GetSeatId()
             {
                 return row * 8 + column;
+            }
+
+            public int CompareTo(Seat compareSeat)
+            {
+                return this.SeatId.CompareTo(compareSeat.SeatId);
             }
         }
 
