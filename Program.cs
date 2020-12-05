@@ -11,11 +11,9 @@ namespace AdventOfCode
             //var stopwatch = new Stopwatch();
             //stopwatch.Start();
 
-            // Guess 471
-
             var test = new Dec5();
-            Console.WriteLine(test.SolutionPart2());
-            //test.test();
+            test.test();
+
 
 
             //stopwatch.Stop();
