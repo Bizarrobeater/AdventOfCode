@@ -250,8 +250,7 @@ namespace AdventOfCode
             //    }
             //    topBuilder.AppendFormat(@"{1}{0}", botBuilder, Environment.NewLine);
             //    Console.WriteLine(topBuilder.ToString());
-            }
+            //}
         }
     }
-
 }
