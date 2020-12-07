@@ -4,7 +4,7 @@ using System.Text;
 
 namespace AdventOfCode
 {
-    interface ISolution
+    public interface ISolution
     {
         public int SolutionPart1();
         public int SolutionPart2();

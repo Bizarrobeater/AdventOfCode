@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Text;
 using System.Linq;
-using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics;
 
 namespace AdventOfCode
 {
@@ -24,6 +24,24 @@ namespace AdventOfCode
                 BagNodes.Add(new BagNode(rawData.Remove(rawData.Length - 1)));
             }
             InBags = new BagsInBags(BagNodes);
+        }
+
+        public void Timer()
+        {
+            Stopwatch watch = new Stopwatch();
+            Console.Write("Part 1 Solution: ");
+            watch.Start();
+            Console.WriteLine(SolutionPart1());
+            watch.Stop();
+            Console.Write("Milliseconds taken: ");
+            Console.WriteLine(watch.ElapsedMilliseconds + Environment.NewLine);
+            watch.Reset();
+            Console.Write("Part 2 Solution: ");
+            watch.Start();
+            Console.WriteLine(SolutionPart2());
+            watch.Stop();
+            Console.Write("Milliseconds taken: ");
+            Console.WriteLine(watch.ElapsedMilliseconds);
         }
 
         // for testing purposes
@@ -190,7 +208,7 @@ namespace AdventOfCode
                 return x.BagName == y.BagName;
             }
 
-            public int GetHashCode([DisallowNull] BagNode obj)
+            public int GetHashCode(BagNode obj)
             {
                 return 0;
             }

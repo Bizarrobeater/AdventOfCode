@@ -18,10 +18,10 @@ namespace AdventOfCode
             //WithTestDataDec7Part2();
 
             var test = new Dec7();
-            //test.test();
+            test.Timer();
 
             //Console.WriteLine(test.SolutionPart1());
-            Console.WriteLine(test.SolutionPart2());
+            //Console.WriteLine(test.SolutionPart2());
 
 
 
@@ -35,20 +35,5 @@ namespace AdventOfCode
             Console.WriteLine(dec7.SolutionPart1());
         }
 
-        static void WithTestDataDec7Part2()
-        {
-            List<string> testList = new List<string>
-            {
-                "shiny gold bags contain 2 dark red bags.",
-                "dark red bags contain 2 dark orange bags.",
-                "dark orange bags contain 2 dark yellow bags.",
-                "dark yellow bags contain 2 dark green bags.",
-                "dark green bags contain 2 dark blue bags.",
-                "dark blue bags contain 2 dark violet bags.",
-                "dark violet bags contain no other bags.",
-            };
-            Dec7 dec7 = new Dec7(testList);
-            Console.WriteLine(dec7.SolutionPart2());
-        }
     }
 }
