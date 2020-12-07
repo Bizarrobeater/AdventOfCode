@@ -12,13 +12,16 @@ namespace AdventOfCode
             //var stopwatch = new Stopwatch();
             //stopwatch.Start();
 
-            WithTestDataDec7Part2();
+            //guess low 4758
+            //guess high 6315
 
-            //var test = new Dec7();
+            //WithTestDataDec7Part2();
+
+            var test = new Dec7();
             //test.test();
 
             //Console.WriteLine(test.SolutionPart1());
-            //Console.WriteLine(test.SolutionPart2());
+            Console.WriteLine(test.SolutionPart2());
 
 
 
@@ -28,20 +31,7 @@ namespace AdventOfCode
 
         static void WithTestDataDec7()
         {
-            List<string> testList = new List<string>
-            {
-                "light red bags contain 1 bright white bag, 2 muted yellow bags.",
-                "dark orange bags contain 3 bright white bags, 4 muted yellow bags.",
-                "bright white bags contain 1 shiny gold bag.",
-                "muted yellow bags contain 2 shiny gold bags, 9 faded blue bags.",
-                "shiny gold bags contain 1 dark olive bag, 2 vibrant plum bags.",
-                "dark olive bags contain 3 faded blue bags, 4 dotted black bags.",
-                "vibrant plum bags contain 5 faded blue bags, 6 dotted black bags.",
-                "faded blue bags contain no other bags.",
-                "dotted black bags contain no other bags.",
-
-            };
-            Dec7 dec7 = new Dec7(testList);
+            Dec7 dec7 = new Dec7(TestData.Dec7Part1);
             Console.WriteLine(dec7.SolutionPart1());
         }
 

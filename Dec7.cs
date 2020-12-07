@@ -35,16 +35,6 @@ namespace AdventOfCode
                 BagNodes.Add(new BagNode(rawData.Remove(rawData.Length - 1)));
             }
             InBags = new BagsInBags(BagNodes);
-            //InBags.PrintBags();
-        }
-
-        public void test()
-        {
-            BagNodes[0].PrintBags();
-            BagNodes[1].PrintBags();
-            BagNodes[10].PrintBags();
-            BagNodes[11].PrintBags();
-            BagNodes[80].PrintBags();
         }
 
         public int SolutionPart1()
@@ -102,13 +92,13 @@ namespace AdventOfCode
             {
                 int result = 0;
                 if (currentNode.BagNodeNames == null)
-                    return 1;
+                    return 0;
                 else
                 {
                     Dictionary<BagNode, int> bagNodes = Bagtionary[currentNode];
                     foreach (KeyValuePair<BagNode, int> kvp in bagNodes)
                     {
-                        result += kvp.Value * TraverseBagContains(kvp.Key);
+                        result += kvp.Value * (TraverseBagContains(kvp.Key) + 1);
                     }
                 }
 
@@ -189,28 +179,6 @@ namespace AdventOfCode
                     stringBuilder.Append(PrintTraverse(bag));
                 }
                 Console.WriteLine(stringBuilder.ToString());
-
-                //StringBuilder stringBuilder = new StringBuilder();
-                //foreach (KeyValuePair<BagNode, Dictionary<BagNode, int>> kvp in Bagtionary)
-                //{
-                //    BagNode topBag = kvp.Key;
-                    
-                //    stringBuilder.Append($"--{topBag.BagName}--\n");
-                //    if (kvp.Value != null)
-                //    {
-                //        foreach (KeyValuePair<BagNode, int> seckvp in kvp.Value)
-                //        {
-                //            stringBuilder.Append(" ");
-                //            stringBuilder.Append($"{seckvp.Key.BagName} - {seckvp.Value}\n");
-                //        }
-                //    }
-                //    else
-                //        stringBuilder.Append(" No bags\n");
-
-
-                //    stringBuilder.Append(Environment.NewLine);
-                //}
-                //Console.Write(stringBuilder.ToString());
             }
 
         }
