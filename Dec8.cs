@@ -103,7 +103,7 @@ namespace AdventOfCode
                         if (popInstruction.Switched)
                             popInstruction.SwitchOperation();
                         
-                    } while (popInstruction.Operation == Operation.acc && triedSwitched.Contains(popInstruction));
+                    } while (popInstruction.Operation == Operation.acc || triedSwitched.Contains(popInstruction));
                     triedSwitched.Add(popInstruction);
                     popInstruction.SwitchOperation();
                     currInstruction = popInstruction;
@@ -136,18 +136,18 @@ namespace AdventOfCode
             jmp,
         }
 
-        private class InstructionComparer : EqualityComparer<Instruction>
-        {
-            public override bool Equals(Instruction x, Instruction y)
-            {
-                return x.Index == y.Index;
-            }
+        //private class InstructionComparer : EqualityComparer<Instruction>
+        //{
+        //    public override bool Equals(Instruction x, Instruction y)
+        //    {
+        //        return x.Index == y.Index;
+        //    }
 
-            public override int GetHashCode([DisallowNull] Instruction obj)
-            {
-                return 0;
-            }
-        }
+        //    public override int GetHashCode([DisallowNull] Instruction obj)
+        //    {
+        //        return 0;
+        //    }
+        //}
 
 
         private class Instruction
