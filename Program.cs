@@ -15,13 +15,11 @@ namespace AdventOfCode
             
             WithTestData();
 
-            // Guess High: 2139
-
-            //var test = new Dec8();
+            var test = new Dec8();
             //test.Timer();
 
             //Console.WriteLine(test.SolutionPart1());
-            //Console.WriteLine(test.SolutionPart2());
+            Console.WriteLine(test.SolutionPart2());
 
 
 

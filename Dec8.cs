@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace AdventOfCode
 {
-    class Dec8 : ISolution
+    public class Dec8 : ISolution
     {
         List<string> dataList;
         List<Instruction> allInstructions = new List<Instruction>();
@@ -70,45 +70,51 @@ namespace AdventOfCode
         public int SolutionPart2()
         {
             Stack<Instruction> visitInstruct = new Stack<Instruction>();
-            List<Instruction> triedSwitched = new List<Instruction>();
             int currIndex = 0;
             int accumulator = 0;
-
             
             Instruction currInstruction;
+            Instruction switchedInstruct = null;
 
             while (currIndex < allInstructions.Count)
             {
                 currInstruction = allInstructions[currIndex];
-                
+
                 if (visitInstruct.Contains(currInstruction))
                 {
                     Instruction popInstruction;
-                    do
+                    
+                    if (switchedInstruct != null)
                     {
-                        popInstruction = visitInstruct.Pop();
-                        switch (popInstruction.Operation)
+                        switchedInstruct.SwitchOperation();
+                        // Pops until switched instruct is hit and removes that as well
+                        do
                         {
-                            case Operation.nop:
-                                currIndex--;
-                                break;
-                            case Operation.acc:
+                            popInstruction = visitInstruct.Pop();
+                            if (popInstruction.Operation == Operation.acc)
+                            {
                                 accumulator -= popInstruction.Argument;
-                                currIndex--;
-                                break;
-                            case Operation.jmp:
-                                currIndex -= popInstruction.Argument;
-                                break;
-                        }
-                        if (popInstruction.Switched)
-                            popInstruction.SwitchOperation();
-                        
-                    } while (popInstruction.Operation == Operation.acc || triedSwitched.Contains(popInstruction));
-                    triedSwitched.Add(popInstruction);
+                            }
+
+                        } while (popInstruction != switchedInstruct);
+                    }
+                        popInstruction = visitInstruct.Pop();
+
+
+                    // pops until a non acc is hit
+                    while (popInstruction.Operation == Operation.acc)
+                    {
+                        accumulator -= popInstruction.Argument;
+                        popInstruction = visitInstruct.Pop();
+                    }
+
+                    switchedInstruct = popInstruction;
                     popInstruction.SwitchOperation();
+                  
                     currInstruction = popInstruction;
-                }
-                
+                    currIndex = currInstruction.Index;
+                }            
+
                 switch (currInstruction.Operation)
                 {
                     case Operation.nop:
@@ -122,10 +128,8 @@ namespace AdventOfCode
                         currIndex += currInstruction.Argument;
                         break;
                 }
-
                 visitInstruct.Push(currInstruction);
             }
-
             return accumulator;
         }
 
@@ -135,20 +139,6 @@ namespace AdventOfCode
             nop,
             jmp,
         }
-
-        //private class InstructionComparer : EqualityComparer<Instruction>
-        //{
-        //    public override bool Equals(Instruction x, Instruction y)
-        //    {
-        //        return x.Index == y.Index;
-        //    }
-
-        //    public override int GetHashCode([DisallowNull] Instruction obj)
-        //    {
-        //        return 0;
-        //    }
-        //}
-
 
         private class Instruction
         {
@@ -190,8 +180,7 @@ namespace AdventOfCode
                 if (Operation == Operation.acc)
                 {
                     return;
-                }
-                
+                } 
                 switched = !switched;
                 
                 if (Operation == Operation.nop)
@@ -199,10 +188,6 @@ namespace AdventOfCode
                 else
                     Operation = Operation.nop;
             } 
-
-
-
         }
-
     }
 }

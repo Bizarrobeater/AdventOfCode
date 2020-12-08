@@ -4,7 +4,7 @@ using System.Text;
 
 namespace AdventOfCode
 {
-    static class TestData
+    public static class TestData
     {
         public static List<string> Dec7Part1 = new List<string>
         {
