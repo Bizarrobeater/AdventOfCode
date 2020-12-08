@@ -30,7 +30,18 @@ namespace AdventOfCode
                 "dark violet bags contain no other bags.",
         };
 
-
+        public static List<string> Dec8Part1 = new List<string>
+        {
+            "nop +0",
+            "acc +1",
+            "jmp +4",
+            "acc +3",
+            "jmp -3",
+            "acc -99",
+            "acc +1",
+            "jmp -4",
+            "acc +6",
+        };
 
     }
 }
