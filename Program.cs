@@ -12,16 +12,14 @@ namespace AdventOfCode
             //var stopwatch = new Stopwatch();
             //stopwatch.Start();
 
-            //guess low 4758
-            //guess high 6315
+            
+            WithTestData();
 
-            //WithTestDataDec7Part2();
-
-            var test = new Dec7();
-            test.Timer();
+            var test = new Dec8();
+            //test.Timer();
 
             //Console.WriteLine(test.SolutionPart1());
-            //Console.WriteLine(test.SolutionPart2());
+            Console.WriteLine(test.SolutionPart2());
 
 
 
@@ -29,11 +27,13 @@ namespace AdventOfCode
             //Console.WriteLine(stopwatch.ElapsedMilliseconds);
         }
 
-        static void WithTestDataDec7()
+        static void WithTestData()
         {
-            Dec7 dec7 = new Dec7(TestData.Dec7Part1);
-            Console.WriteLine(dec7.SolutionPart1());
+            Dec8 test = new Dec8(TestData.Dec8Part1);
+            Console.WriteLine(test.SolutionPart2());
         }
+
+
 
     }
 }
