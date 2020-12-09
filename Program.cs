@@ -11,8 +11,7 @@ namespace AdventOfCode
         {
             //var stopwatch = new Stopwatch();
             //stopwatch.Start();
-
-            
+   
             //WithTestData();
 
             var test = new Dec9();
