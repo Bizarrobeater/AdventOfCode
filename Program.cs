@@ -13,13 +13,15 @@ namespace AdventOfCode
             //stopwatch.Start();
 
             
-            WithTestData();
+            //WithTestData();
 
-            var test = new Dec8();
+            //low guess 820
+
+            var test = new Dec9();
             //test.Timer();
 
-            //Console.WriteLine(test.SolutionPart1());
-            Console.WriteLine(test.SolutionPart2());
+            Console.WriteLine(test.SolutionPart1Long());
+            //Console.WriteLine(test.SolutionPart2Long());
 
 
 
@@ -29,8 +31,8 @@ namespace AdventOfCode
 
         static void WithTestData()
         {
-            Dec8 test = new Dec8(TestData.Dec8Part1);
-            Console.WriteLine(test.SolutionPart2());
+            Dec9 test = new Dec9(TestData.Dec9Part1);
+            Console.WriteLine(test.SolutionPart1Long());
         }
 
 
