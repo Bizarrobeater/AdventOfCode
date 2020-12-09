@@ -26,6 +26,7 @@ namespace AdventOfCode
             allInstructions = InstructionMethods.CreateVM(dataList);
         }
 
+
         // Finds total of accumulator at the start of the infinite loop
         public int SolutionPart1()
         {
