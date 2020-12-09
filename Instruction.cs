@@ -4,7 +4,7 @@ using System.Text;
 
 namespace AdventOfCode
 {
-    public static class InstructionConstructor
+    public static class InstructionMethods
     {
         // creates a list of instruction based on the raw VM
         public static List<Instruction> CreateVM(List<string> rawInstructions)
@@ -15,21 +15,30 @@ namespace AdventOfCode
             {
                 instructions.Add(CreateInstruction(rawInstructions[i], i));
             }
-            int thrownInt = 0;
-            int tempIndex;
+
+            UpdateFormerIndices(ref instructions);
+            
+            return instructions;
+        }
+
+        public static void UpdateFormerIndices(ref List<Instruction> instructions)
+        {
+            // resets all former indices lists.
+            foreach (Instruction instruction in instructions)
+            {
+                instruction.FormerIndices = new List<int>();
+            }
+
+            // updates the new list
             Instruction tempInstr;
             for (int i = 0; i < instructions.Count; i++)
             {
-                tempIndex = i;
                 tempInstr = instructions[i];
-                tempInstr.Action(ref tempIndex, ref thrownInt);
-                if (tempIndex > 0 && tempIndex < instructions.Count)
+                if (tempInstr.NextIndex > 0 && tempInstr.NextIndex < instructions.Count)
                 {
-                    tempInstr.NextIndex = tempIndex;
-                    instructions[tempIndex].FormerIndex= tempInstr.Index;
+                    instructions[tempInstr.NextIndex].FormerIndices.Add(tempInstr.Index);
                 }
             }
-            return instructions;
         }
 
         // Creates a single instruction based on the VM
@@ -50,8 +59,32 @@ namespace AdventOfCode
                 default:
                     return new Nop(argument, index);
             }
-
         }
+
+        // From a List of Instructions and a Index, travels backwards and makes a list of all instructions visited that way.
+        public static List<int> BackTravelFromIndex(List<Instruction> instructions, int fromIndex)
+        {
+            List<int> visitedInstructions = new List<int>();
+            Instruction currInstr = instructions[fromIndex];
+
+            visitedInstructions.Add(currInstr.Index);            
+            if (currInstr.FormerIndices.Count == 0)
+                return visitedInstructions;
+            
+            foreach (int index in currInstr.FormerIndices)
+            {
+                visitedInstructions.AddRange(InstructionMethods.BackTravelFromIndex(instructions, index));
+            }
+            return visitedInstructions;
+        }
+
+        // Swaps the type of instruction
+        public static Instruction SwapType<T>(Instruction instruction) where T : Instruction
+        {
+            instruction = (T)Activator.CreateInstance(typeof(T), instruction);
+            return instruction;
+        }
+        
     }
 
 
@@ -64,8 +97,7 @@ namespace AdventOfCode
         private Instruction _nextInstruct = null;
         private Instruction _formerInstruct = null;
 
-        private int _nextIndex = -1;
-        private int _formerIndex = -1;
+        private List<int> _formerIndices = new List<int>();
 
         // The instruction data
         private int _argument;
@@ -83,8 +115,8 @@ namespace AdventOfCode
         internal Instruction OldType { get => _oldInstruct; }
         public Instruction NextInstruct { get => _nextInstruct; set => _nextInstruct = value; }
         public Instruction FormerInstruct { get => _formerInstruct; set => _formerInstruct = value; }
-        public int NextIndex { get => _nextIndex; set => _nextIndex = value; }
-        public int FormerIndex { get => _formerIndex; set => _formerIndex = value; }
+        public int NextIndex { get => GetNextIndex(); }
+        public List<int> FormerIndices{ get => _formerIndices; set => _formerIndices = value; }
 
         public Instruction(int argument, int index)
         {
@@ -103,6 +135,15 @@ namespace AdventOfCode
 
         public abstract void Action(ref int index, ref int accumulator);
         public abstract void RevertAction(ref int index, ref int accumulator);
+
+        public int GetNextIndex()
+        {
+            int thrownInt = 0;
+            int nextIndex = this.Index;
+            Action(ref nextIndex, ref thrownInt);
+            return nextIndex;
+        }
+
     }
 
     public class Acc : Instruction
