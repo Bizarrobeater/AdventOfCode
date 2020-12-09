@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace AdventOfCode
 {
@@ -8,7 +9,6 @@ namespace AdventOfCode
     {
         List<string> dataList;
         List<long> longDataList;
-        int preamble = 25;
         bool testRun = false;
         
         public Dec9()
@@ -73,13 +73,26 @@ namespace AdventOfCode
 
         public long SolutionPart2Long()
         {
-            long goalSum = SolutionPart2Long();
+            long goalSum = SolutionPart1Long();
+            Queue<long> goalQueue = new Queue<long>();
 
-
-
+            for (int i = 0; i < longDataList.Count; i++)
+            {
+                goalQueue.Enqueue(longDataList[i]);
+                if (goalQueue.Sum() > goalSum)
+                {
+                    goalQueue.Dequeue();
+                    while (goalQueue.Sum() > goalSum)
+                    {
+                        goalQueue.Dequeue();
+                    }
+                }
+                if (goalQueue.Sum() == goalSum)
+                {
+                    return goalQueue.Min() + goalQueue.Max();
+                }
+            }
             return -1;
-
-
         }
 
         public int SolutionPart1()
