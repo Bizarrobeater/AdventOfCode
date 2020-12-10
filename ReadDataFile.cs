@@ -19,5 +19,11 @@ namespace AdventOfCode
             List<string> dataStrList = allfile.Split("\n\n", StringSplitOptions.RemoveEmptyEntries).ToList();
             return dataStrList;
         } 
+
+        static public List<int> FileToListInt(string fileName)
+        {
+            List<string> pulletList = ReadDataFile.FileToListSimple(fileName);
+            return pulletList.Select(int.Parse).ToList();
+        }
     }
 }
