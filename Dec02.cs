@@ -5,17 +5,14 @@ using System.Linq;
 
 namespace AdventOfCode
 {
-    class Dec2 : ISolution
+    class Dec02 : AdventCodeBase<string, int>
     {
-        List<string> dataList;
-
-        public List<string> DataList { get => dataList; }
-
-        public Dec2()
+        public Dec02() : base(ReadDataFile.FileToListSimple)
         {
-            dataList = ReadDataFile.FileToListSimple("AdventCode2Dec1Input.txt");
         }
 
+        //
+        // returns bool based on if a letter appear a number of times in a range
         private bool validatePasswordPart1(string passwordInfo)
         {
             Regex rx = new Regex(@"(\d+)-(\d+) ([a-z]{1}): (\w+)");
@@ -30,9 +27,10 @@ namespace AdventOfCode
             int letterCount = password.Length - password.Replace(letter, string.Empty).Length;
 
             return (letterCount >= minAmount && letterCount <= maxAmount);
-
         }
-
+        
+        //
+        // return bool based on a given character appears on one position but not the other
         private bool validatePasswordPart2(string passwordInfo)
         {
             Regex rx = new Regex(@"(\d+)-(\d+) ([a-z]{1}): (\w+)");
@@ -44,14 +42,18 @@ namespace AdventOfCode
             char letter = groups[3].ToString().ToCharArray()[0];
             string password = groups[4].ToString();
 
+            // return bool based on a given character appears on one position but not the other
             return ((password[firstInd - 1] == letter && password[lastInd - 1] != letter) ||
                 (password[firstInd - 1] != letter && password[lastInd - 1] == letter));
         }
 
-        public int SolutionPart1()
+        // Find valid passports.
+        // a given letter must appear a number of times provided
+        // Correct answer: 398
+        public override int Solution1()
         {
             int validCount = 0;
-            foreach (string passwordStr in DataList)
+            foreach (string passwordStr in dataList)
             {
                 if (validatePasswordPart1(passwordStr))
                 {
@@ -61,10 +63,13 @@ namespace AdventOfCode
             return validCount;
         }
 
-        public int SolutionPart2()
+        // Find valid passports
+        // must appear on exactly one of the provided positions
+        // Correct answer: 562
+        public override int Solution2()
         {
             int validCount = 0;
-            foreach (string passwordStr in DataList)
+            foreach (string passwordStr in dataList)
             {
                 if (validatePasswordPart2(passwordStr))
                 {
@@ -72,7 +77,6 @@ namespace AdventOfCode
                 }
             }
             return validCount;
-
         }
     }
 }

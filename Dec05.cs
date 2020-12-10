@@ -5,44 +5,34 @@ using System.Linq;
 
 namespace AdventOfCode
 {
-    class Dec5 : ISolution
+    class Dec05 : AdventCodeBase<string, int>
     {
-        List<string> dataList;
         List<Seat> seatsSorted = new List<Seat>();
-        List<Seat> seatSortedTest = new List<Seat>();
 
-        public Dec5()
+        public Dec05() : base(ReadDataFile.FileToListSimple)
         {
-            dataList = ReadDataFile.FileToListSimple("AdventCode5Dec.txt");
             foreach (string rawSeat in dataList)
             {
                 seatsSorted.Add(new Seat(rawSeat));
-                seatSortedTest.Add(new Seat(rawSeat));
             }
             // Sorts the seats based on seatId
             seatsSorted.Sort((x, y) => x.SeatId.CompareTo(y.SeatId));
-            seatSortedTest.Sort((x, y) => x.CompareTo(y));
         }
-
-        public void test()
-        {
-            List<int> intList = new List<int> { 1, 5, 10, 78, 750, 201 };
-
-            foreach (int i in intList)
-            {
-                seatsSorted[i].PrintSeatData();
-                seatSortedTest[i].PrintSeatData();
-                Console.WriteLine("\n\n");
-            }
-            Console.Write(seatsSorted == seatSortedTest);
-        }
-
-        public int SolutionPart1()
+        
+        //
+        // basic solution, returns the highest seat id.
+        // Correct answer: 935
+        public override int Solution1()
         {
             return seatsSorted[seatsSorted.Count - 1].SeatId;
         }
-
-        public int SolutionPart2()
+        
+        //
+        // Finds a seat with no boarding pass associated. 
+        // Missing seats at the start and end, correct answer is a missing seat id
+        // that has both it neighbours
+        // Correct answer: 743
+        public override int Solution2()
         {
             int neighborDown = seatsSorted[0].SeatId;
             int current;
@@ -57,7 +47,9 @@ namespace AdventOfCode
             }
             return -1;
         }
-
+        
+        //
+        // class for seats, contains the binary information and the int information for rows and columns
         private class Seat
         {
             string binaryRow;
@@ -72,6 +64,7 @@ namespace AdventOfCode
                 string rawRow = rawSeat.Substring(0, 7);
                 string rawCol = rawSeat.Substring(7, 3);
 
+                // converts the letters in the code to binary
                 binaryRow = rawRow.Replace("F", "0").Replace("B", "1");
                 binaryCol = rawCol.Replace("L", "0").Replace("R", "1");
 
@@ -79,18 +72,13 @@ namespace AdventOfCode
                 column = Convert.ToInt32(binaryCol, 2);
             }
 
-            public void PrintSeatData()
-            {
-                Console.WriteLine($"Row: Raw = {binaryRow}, int = {row}");
-                Console.WriteLine($"Col: Raw = {binaryCol}, int = {column}");
-                Console.WriteLine($"{SeatId}");
-            }
-
+            // converts seat information to a seat id
             private int GetSeatId()
             {
                 return row * 8 + column;
             }
 
+            // comparer that used for sorting
             public int CompareTo(Seat compareSeat)
             {
                 return this.SeatId.CompareTo(compareSeat.SeatId);

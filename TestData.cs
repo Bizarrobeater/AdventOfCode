@@ -30,7 +30,7 @@ namespace AdventOfCode
                 "dark violet bags contain no other bags.",
         };
 
-        public static List<string> Dec8Part1 = new List<string>
+        public static List<string> Dec8 = new List<string>
         {
             "nop +0",
             "acc +1",
@@ -43,7 +43,7 @@ namespace AdventOfCode
             "acc +6",
         };
 
-        public static List<long> Dec9Part1 = new List<long>
+        public static List<long> Dec9 = new List<long>
         {
             35,
             20,
@@ -70,7 +70,7 @@ namespace AdventOfCode
 
         // Solution for Part1 should be 220
         // Solution for Part2 should be 19208
-        public static List<int> Dec10Part1 = new List<int>
+        public static List<int> Dec10 = new List<int>
         {
             28,
             33,

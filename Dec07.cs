@@ -3,51 +3,29 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Text;
 using System.Linq;
-using System.Diagnostics;
 
 namespace AdventOfCode
 {
-    public class Dec7 : ISolution
+    public class Dec07 : AdventCodeBase<string, int>
     {
-        List<string> dataList;
         List<BagNode> _bagNodes = new List<BagNode>();
         BagsInBags _inBags;
 
         private List<BagNode> BagNodes { get => _bagNodes; set => _bagNodes = value; }
         private BagsInBags InBags { get => _inBags; set => _inBags = value; }
 
-        public Dec7()
+        public Dec07() : base(ReadDataFile.FileToListSimple)
         {
-            dataList = ReadDataFile.FileToListSimple("AdventCode7Dec.txt");
             foreach (string rawData in dataList)
             {
                 BagNodes.Add(new BagNode(rawData.Remove(rawData.Length - 1)));
             }
             InBags = new BagsInBags(BagNodes);
-        }
-
-        public void Timer()
-        {
-            Stopwatch watch = new Stopwatch();
-            Console.Write("Part 1 Solution: ");
-            watch.Start();
-            Console.WriteLine(SolutionPart1());
-            watch.Stop();
-            Console.Write("Milliseconds taken: ");
-            Console.WriteLine(watch.ElapsedMilliseconds + Environment.NewLine);
-            watch.Reset();
-            Console.Write("Part 2 Solution: ");
-            watch.Start();
-            Console.WriteLine(SolutionPart2());
-            watch.Stop();
-            Console.Write("Milliseconds taken: ");
-            Console.WriteLine(watch.ElapsedMilliseconds);
         }
 
         // for testing purposes
-        public Dec7(List<string> testList)
+        public Dec07(List<string> testList) : base(testList)
         {
-            dataList = testList;
             foreach (string rawData in dataList)
             {
                 BagNodes.Add(new BagNode(rawData.Remove(rawData.Length - 1)));
@@ -55,7 +33,9 @@ namespace AdventOfCode
             InBags = new BagsInBags(BagNodes);
         }
 
-        public int SolutionPart1()
+        // find the number of different bag that can at some level contain a shiny gold bag
+        // Correct answer: 326
+        public override int Solution1()
         {
             List<BagNode> resultBag = new List<BagNode>();
             List<BagNode> tempBags = new List<BagNode>();
@@ -71,7 +51,9 @@ namespace AdventOfCode
             return resultBag.Count;
         }
 
-        public int SolutionPart2()
+        // Find the amount of bags you need inside 1 shiny gold bag
+        // Correct answer: 5635
+        public override int Solution2()
         {
             BagNode seachNode = BagNodes.Find(r => r.BagName == "shiny gold");
             return InBags.TraverseBagContains(seachNode);
@@ -79,12 +61,12 @@ namespace AdventOfCode
 
         private class BagsInBags
         {
-            Dictionary<BagNode, Dictionary<BagNode, int>> _bagtionary = new Dictionary<BagNode, Dictionary<BagNode, int>>();
-
-            public Dictionary<BagNode, Dictionary<BagNode, int>> Bagtionary { get => _bagtionary; set => _bagtionary = value; }
+            // Dictionary of bags, containing a dictionary of the bags it contains and that number of bags
+            public Dictionary<BagNode, Dictionary<BagNode, int>> Bagtionary { get; set; }
 
             public BagsInBags(List<BagNode> bagNodes)
             {
+                Bagtionary = new Dictionary<BagNode, Dictionary<BagNode, int>>();
                 foreach (BagNode bag in bagNodes)
                 {
                     // bag contains no other bags
@@ -106,6 +88,8 @@ namespace AdventOfCode
                 }
             }
 
+            //
+            // takes a bag and calculates the amount of bags it contains recursively
             public int TraverseBagContains(BagNode currentNode)
             {
                 int result = 0;
@@ -119,88 +103,48 @@ namespace AdventOfCode
                         result += kvp.Value * (TraverseBagContains(kvp.Key) + 1);
                     }
                 }
-
                 return result;
             }
 
+            // Counts the number of bags a given bag contains recursively
             public List<BagNode> TraverseSearch(BagNode CurrentBagNode, BagNode SearchNode, out bool nodeFound)
             {
                 nodeFound = false;
                 List<BagNode> result = new List<BagNode>();
+                // if the current bag contains no other bags return empty list
                 if (CurrentBagNode.BagNodeNames == null)
                     return result;
+                // if the current bag is the bag being searched for, return empty list and output true
                 else if (CurrentBagNode == SearchNode)
                 {
                     nodeFound = true;
                     return result;
                 }
-                else
-                {
-                    bool bagsFound = false;
-                    List<BagNode> bagsInBagList = Bagtionary[CurrentBagNode].Keys.ToList();
-                    foreach (BagNode nextBag in bagsInBagList)
-                    {
-                        List<BagNode> foundBags = TraverseSearch(nextBag, SearchNode, out nodeFound);
-                        if (nodeFound)
-                        {
-                            bagsFound = true;
-                            result = result.Union(foundBags, new BagnodeComparer()).ToList();
-                        }
 
+                bool bagsFound = false;
+                // gets the bags in the current bag
+                List<BagNode> bagsInBagList = Bagtionary[CurrentBagNode].Keys.ToList();
+                foreach (BagNode nextBag in bagsInBagList)
+                {
+                    // recursively finds the number of bags in the current bag
+                    List<BagNode> foundBags = TraverseSearch(nextBag, SearchNode, out nodeFound);
+
+                    if (nodeFound)
+                    {
+                        // if the search node has been found it adds the difference in bags to the existing list of bags
+                        bagsFound = true;
+                        result = result.Union(foundBags, new BagnodeComparer()).ToList();
                     }
-                    if(bagsFound)
-                        result.Add(CurrentBagNode);
-                    nodeFound = bagsFound;
                 }
+                // adds the current bag to the result list if the search bag has been found
+                if(bagsFound)
+                    result.Add(CurrentBagNode);
+                nodeFound = bagsFound;
                 return result;
             }
-
-            public StringBuilder PrintTraverse(BagNode bagNode, int amount = 0, int bagDepth = 0)
-            {
-                StringBuilder stringBuilder = new StringBuilder();
-
-                // adds two spaces per depth of bags
-                string tabLength = new String(' ', bagDepth * 2);
-
-                if (amount == 0)
-                    // Toplevel bag
-                    stringBuilder.Append($"--{bagNode.BagName}--\n");
-                else
-                    // Any other bag that also contains an amount of bags
-                    stringBuilder.Append($"{tabLength}{bagNode.BagName} -> {amount}\n");
-
-                // If theres no bags in the bag return that.
-                if (bagNode.BagNodeNames == null)
-                {
-                    stringBuilder.Append($"{tabLength}  Nothing\n");
-                    return stringBuilder;
-                }
-                
-                // Dict for from the 
-                Dictionary<BagNode, int> BagDict = Bagtionary[bagNode];
-                foreach (KeyValuePair<BagNode, int> kvp in BagDict)
-                {
-
-                    stringBuilder.Append(PrintTraverse(kvp.Key, kvp.Value, bagDepth + 1));
-
-                }
-
-                return stringBuilder;
-            }
-
-
-            public void PrintBags()
-            {
-                StringBuilder stringBuilder = new StringBuilder();
-                foreach (BagNode bag in Bagtionary.Keys)
-                {
-                    stringBuilder.Append(PrintTraverse(bag));
-                }
-                Console.WriteLine(stringBuilder.ToString());
-            }
-
         }
 
+        // used to make a union of lists of bags by comparing bag names
         private class BagnodeComparer : IEqualityComparer<BagNode>
         {
             public bool Equals(BagNode x, BagNode y)
@@ -214,23 +158,22 @@ namespace AdventOfCode
             }
         }
 
+
         private class BagNode
         {
-            string _bagName;
-            Dictionary<string, int> _bagNodeNames = new Dictionary<string, int>();
-            public string BagName { get => _bagName; set => _bagName = value; }
-            public Dictionary<string, int> BagNodeNames { get => _bagNodeNames; set => _bagNodeNames = value; }
+            public string BagName { get; set; }
+            public Dictionary<string, int> BagNodeNames { get; set; }
 
-            public BagNode(string rawDataString, bool raw = true)
+            public BagNode(string rawDataString)
             {
                     string[] tempSplit = rawDataString.Split(" bags contain ");
                     BagName = tempSplit[0];
                     Bagsplitter(tempSplit[1].Split(", "));
-
             }
 
             private void Bagsplitter(string[] containedBags)
             {
+                BagNodeNames = new Dictionary<string, int>();
                 if (containedBags[0] == "no other bags")
                     BagNodeNames = null;
                 else
@@ -243,24 +186,6 @@ namespace AdventOfCode
                         BagNodeNames.Add(groups[2].ToString(), Int32.Parse(groups[1].ToString()));
                     }
                 }
-            }
-
-            public string PrintBags()
-            {
-                StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append($"--{BagName}--\n");
-
-                if (BagNodeNames != null)
-                {
-                    foreach (KeyValuePair<string, int> kvp in BagNodeNames)
-                    {
-                        stringBuilder.Append($"\t{kvp.Key} - {kvp.Value}\n");
-                    }
-                }
-                else
-                    stringBuilder.Append("\tNo bags\n");
-
-                return stringBuilder.ToString();
             }
         }
     }

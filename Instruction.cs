@@ -112,8 +112,8 @@ namespace AdventOfCode
         private int _index;
 
         // List of Indexes that leads directly to this instruction
-        private List<int> _formerIndices = new List<int>();
-
+        public List<int> FormerIndices { get; set; }
+        
         // The instruction data
         private int _argument;
 
@@ -122,10 +122,11 @@ namespace AdventOfCode
         
         public int Argument { get => _argument; }
         public int Index { get => _index; }
-        public List<int> FormerIndices{ get => _formerIndices; set => _formerIndices = value; }
+        
 
         public Instruction(int argument, int index)
         {
+            FormerIndices = new List<int>();
             _index = index;
             _argument = argument;
         }
@@ -134,6 +135,7 @@ namespace AdventOfCode
         // Overload method used if switching from one type of instruction to another
         public Instruction(Instruction instruction)
         {
+            FormerIndices = new List<int>();
             _index = instruction.Index;
             _argument = instruction.Argument;
         }
