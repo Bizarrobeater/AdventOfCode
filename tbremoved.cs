@@ -1,17 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace AdventOfCode
 {
-    class Dec10 : AdventCodeBase<int, long>
+    class tbremoved : ISolution
     {
-        public Dec10() : base(ReadDataFile.FileToListInt)
+        List<int> dataList;
+
+        public tbremoved()
         {
+            dataList = ReadDataFile.FileToListInt("AdventCode10Dec.txt");
+            //AddMissingData();
         }
 
-        public Dec10(List<int> testList) : base(testList)
+        public tbremoved(List<int> testList)
         {
+            dataList = testList;
+            //AddMissingData();
         }
 
         private List<int> AddMissingData(List<int> dataList)
@@ -19,23 +28,40 @@ namespace AdventOfCode
             // List starts at 0
             int min = 0;
             int max = dataList.Max() + 3;
-            List<int> newData = new List<int>(dataList);
 
-            newData.Add(min);
-            newData.Add(max);
+            dataList.Add(min);
+            dataList.Add(max);
 
-            return newData;
+            return dataList;
         }
 
+        public void Timer()
+        {
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
+            SolutionPart2Long();
+            watch.Stop();
+            Console.WriteLine(watch.ElapsedMilliseconds);
+        }
+
+        public void PrintTest()
+        {
+            List<int> sortedData = AddMissingData(dataList);
+            sortedData.Sort();
+
+            foreach (int number in sortedData)
+            {
+                Console.WriteLine(number);
+            }
+        }
+        
         //
         // Finds the number of differences between sequential numbers.
         // differences can be 1-2-3, multiplys the count of 1 diff and 3 diff
         // Solution: 2775
-        public override long Solution1()
+        public int SolutionPart1()
         {
-            List<int> sortedData = new List<int>(dataList);
-            sortedData.Add(0);
-            sortedData.Add(sortedData.Max() + 3);
+            List<int> sortedData = AddMissingData(dataList);
             sortedData.Sort();
 
             Dictionary<int, int> joltCounter = new Dictionary<int, int>();
@@ -50,14 +76,33 @@ namespace AdventOfCode
                     joltCounter.Add(diff, 1);
             }
 
+            foreach (KeyValuePair<int, int> kvp in joltCounter)
+            {
+                Console.WriteLine($"Key: {kvp.Key} - Value: {kvp.Value}");
+            }
+
             return joltCounter[1] * joltCounter[3];
+        }
+
+        public long ReachTraversal(Dictionary<int, List<int>> joltReach, int searchInt)
+        {
+            Dictionary<int, long> combinationSum = new Dictionary<int, long>();
+
+            for (int i = joltReach.Count - 1; i >= 0; i--)
+            {
+
+
+            }
+            
+
+            return -1;
         }
 
         //
         // Determine the number of sequence combinations in the list
         // each number in a sequence should have 1-3 between itself and the next number
         // correct answer 518.344.341.716.992 different combinations
-        public override long Solution2()
+        public long SolutionPart2Long()
         {
             // add 0 as a starting point for the combinations and sort the list
             List<int> sortedData = new List<int>(dataList);
@@ -109,5 +154,11 @@ namespace AdventOfCode
             // returns the number of combinations for 0
             return combinationSumDict[0];
         }
+
+        public int SolutionPart2()
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

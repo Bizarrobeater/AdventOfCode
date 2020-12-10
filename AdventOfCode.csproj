@@ -7,34 +7,34 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="DataSources\AdventCode10Dec.txt">
+    <None Update="DataSources\AdventCodeDec10.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="DataSources\AdventCode1Dec1input.txt">
+    <None Update="DataSources\AdventCodeDec01.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="DataSources\AdventCode2Dec1Input.txt">
+    <None Update="DataSources\AdventCodeDec02.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="DataSources\AdventCode3Dec.txt">
+    <None Update="DataSources\AdventCodeDec03.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="DataSources\AdventCode4Dec.txt">
+    <None Update="DataSources\AdventCodeDec04.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="DataSources\AdventCode5Dec.txt">
+    <None Update="DataSources\AdventCodeDec05.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="DataSources\AdventCode6Dec.txt">
+    <None Update="DataSources\AdventCodeDec06.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="DataSources\AdventCode7Dec.txt">
+    <None Update="DataSources\AdventCodeDec07.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="DataSources\AdventCode8Dec.txt">
+    <None Update="DataSources\AdventCodeDec08.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="DataSources\AdventCode9Dec.txt">
+    <None Update="DataSources\AdventCodeDec09.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

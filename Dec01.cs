@@ -5,25 +5,25 @@ using System.Linq;
 
 namespace AdventOfCode
 {
-    public class Dec1Part2 : ISolution
+    public class Dec01 : AdventCodeBase<int, long>
     {
-        List<int> dataList;
-
-        public Dec1Part2()
+        public Dec01() : base(ReadDataFile.FileToListInt)
         {
-            var dataStrList = ReadDataFile.FileToListSimple("AdventCode1Dec1Input.txt"); 
-            dataList = dataStrList.Select(s => Convert.ToInt32(s)).ToList();
         }
 
-        public int SolutionPart1()
+        // finds the 2 numbers in a list that sums to 2020
+        // result is the 2 numbers multiplied
+        // Correct answer: 121396
+        public override long Solution1()
         {
-            List<int> tempList = dataList;
+            List<int> tempList = new List<int>(dataList);
+            // Sorting the list to make a binary search
             tempList.Sort();
             int goalNumber;
             BinarySearch search = new BinarySearch(tempList);
             int resultIndex;
-            
 
+            // Bruteforcing solution
             foreach (int i in tempList)
             {
                 goalNumber = 2020 - i;
@@ -35,62 +35,38 @@ namespace AdventOfCode
                     return i * tempList[resultIndex];
                 }
             }
-
+            // In case of no correct answer
             return -1;
         }
 
-        public int SolutionPart2()
+        // Same deal, but now with 3 numbers
+        // Correct answer is: 73.616.634
+        public override long Solution2()
         {
-            List<int> tempList = dataList;
+            List<int> tempList = new List<int>(dataList);
             tempList.Sort();
             int goalNumber;
             BinarySearch baseSearch = new BinarySearch(tempList);
             int resultIndex;
 
+            // Starts by finding 1 number from the low end of list
             for (int i = 0; i < tempList.Count - 2; i++)
             {
+                // test with all number from the high end of list
                 for (int j = tempList.Count - 1; j > i; j--)
                 {
                     goalNumber = 2020 - tempList[i] - tempList[j];
+                    // performs binary search
                     resultIndex = baseSearch.FindIndex(goalNumber);
 
+                    // if a index is found returns the result
                     if (resultIndex >= 0)
                     {
                         return tempList[i] * tempList[j] * tempList[resultIndex];
                     }
                 }
             }
-
-            return -1;
-        }
-
-
-        public int Solution()
-        {
-            int first = 0;
-            int second = 0;
-            int third = 0;
-
-            for (int i = 0; i < dataList.Count - 3; i++)
-            {
-                first = dataList[i];
-                for (int j = i + 1; j < dataList.Count - 2; j++)
-                {
-                    second = dataList[j];
-                    if (!(first + second >= 2020))
-                    {
-                        for (int k = j + 1; k < dataList.Count - 1; k++)
-                        {
-                            third = dataList[k];
-                            if (first + second + third == 2020)
-                            {
-                                return first * second * third;
-
-                            }
-                        }
-                    }
-                }
-            }
+            // in case of invalid dataset
             return -1;
         }
     }

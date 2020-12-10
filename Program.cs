@@ -17,13 +17,14 @@ namespace AdventOfCode
             // answer: 19208
             //WithTestDataPart2();
 
-            var test = new Dec10();
+            var test = new Dec01();
             //test.PrintTest();
-            test.Timer();
+            test.Timer("Solution1", test.Solution1);
+            test.Timer("Solution2", test.Solution2);
 
 
-            //Console.WriteLine(test.SolutionPart1());
-            Console.WriteLine(test.SolutionPart2Long());
+            //Console.WriteLine(test.Solution1());
+            //Console.WriteLine(test.Solution2());
 
             //stopwatch.Stop();
             //Console.WriteLine(stopwatch.ElapsedMilliseconds);
@@ -31,13 +32,13 @@ namespace AdventOfCode
 
         static void WithTestDataPart1()
         {
-            Dec10 test = new Dec10(TestData.Dec10Part1);
+            tbremoved test = new tbremoved(TestData.Dec10);
             Console.WriteLine(test.SolutionPart1());
         }
 
         static void WithTestDataPart2()
         {
-            Dec10 test = new Dec10(TestData.Dec10Part1);
+            tbremoved test = new tbremoved(TestData.Dec10);
             Console.WriteLine(test.SolutionPart2Long());
         }
 

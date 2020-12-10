@@ -22,8 +22,8 @@ namespace AdventOfCode
 
         static public List<int> FileToListInt(string fileName)
         {
-            List<string> pulletList = ReadDataFile.FileToListSimple(fileName);
-            return pulletList.Select(int.Parse).ToList();
+            List<string> pulledList = ReadDataFile.FileToListSimple(fileName);
+            return pulledList.Select(int.Parse).ToList();
         }
     }
 }
