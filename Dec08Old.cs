@@ -6,27 +6,65 @@ using System.Text.RegularExpressions;
 
 namespace AdventOfCode
 {
-    public class Dec8 : ISolution
+    public class Dec08Old : AdventCodeBase<string, int>
     {
-        List<string> dataList;
         List<Instruction> allInstructions = new List<Instruction>();
 
-        public Dec8()
+        public Dec08Old() : base(ReadDataFile.FileToListSimple)
         {
-            dataList = ReadDataFile.FileToListSimple("AdventCode8Dec.txt");
             for (int i = 0; i < dataList.Count; i++)
             {
                 allInstructions.Add(new Instruction(dataList[i], i));
             }
         }
 
-        public Dec8(List<string> testList)
+        public Dec08Old(List<string> testList) : base(testList)
         {
-            dataList = testList;
             for (int i = 0; i < dataList.Count; i++)
             {
                 allInstructions.Add(new Instruction(dataList[i], i));
             }
+        }
+
+        public override int Solution1()
+        {
+            //Regex rx = new Regex(@"(acc|jmp|nop) (\+|\-)(\d+)");
+            List<int> visitedInstructions = new List<int>();
+            int currentInstruction = 0;
+            int accumulator = 0;
+
+            string[] splitData;
+            string operation;
+            int argument;
+            while (!visitedInstructions.Contains(currentInstruction))
+            {
+                visitedInstructions.Add(currentInstruction);
+                splitData = dataList[currentInstruction].Split(' ');
+                operation = splitData[0];
+                argument = Int32.Parse(splitData[1]);
+
+                switch (operation)
+                {
+                    case "nop":
+                        currentInstruction++;
+                        break;
+                    case "acc":
+                        accumulator += argument;
+                        currentInstruction++;
+                        break;
+                    case "jmp":
+                        currentInstruction += argument;
+                        break;
+                }
+
+
+            }
+            return accumulator;
+        }
+
+        public override int Solution2()
+        {
+            throw new NotImplementedException();
         }
 
         public int SolutionPart1()

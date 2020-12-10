@@ -5,36 +5,22 @@ using System.Linq;
 
 namespace AdventOfCode
 {
-    class Dec6 : ISolution
+    class Dec06 : AdventCodeBase<string, int>
     {
-        List<string> dataList;
         List<GroupsAnswer> GroupsAnswers = new List<GroupsAnswer>();
 
-        public Dec6()
+        public Dec06() : base(ReadDataFile.FileToListDoubleNewline)
         {
-            dataList = ReadDataFile.FileToListDoubleNewline("AdventCode6Dec.txt");
             foreach (string groupAnswer in dataList)
             {
                 GroupsAnswers.Add(new GroupsAnswer(groupAnswer));
             }
         }
 
-        public void test()
-        {
-            int answerSum = 0;
-            foreach (GroupsAnswer groups in GroupsAnswers)
-            {
-                Console.WriteLine($"{groups.commonAnswers} - {groups.commonAnswers.Length}");
-                answerSum += groups.commonAnswers.Length;
-                Console.WriteLine("");
-            }
-            Console.WriteLine(answerSum);
-            
-
-
-        }
-
-        public int SolutionPart1()
+        //
+        // Count the number of distinc answer per group
+        // Correct answer: 6585
+        public override int Solution1()
         {
             int answerSum = 0;
             foreach (GroupsAnswer group in GroupsAnswers)
@@ -44,33 +30,40 @@ namespace AdventOfCode
             return answerSum;
         }
 
-        public int SolutionPart2()
+        //
+        // Count the number of common answers for the entire group
+        // Correct answer: 3276
+        public override int Solution2()
         {
-            //int answerSum = 0;
-            //foreach (GroupsAnswer group in GroupsAnswers)
-            //{
-            //    answerSum += group.commonAnswers;
-            //}
-            //return answerSum;
-            return -1;
+            int answerSum = 0;
+            foreach (GroupsAnswer group in GroupsAnswers)
+            {
+                answerSum += group.commonAnswers.Length;
+            }
+            return answerSum;
         }
 
-
+        // Class for each groups answers
         private class GroupsAnswer
         {
             string allAnswers;
-            public IEnumerable<char> DistinctAnswers { get; set; }
+
+            public List<char> DistinctAnswers { get; set; }
             List<string> personAnswers = new List<string>();
             public string commonAnswers { get => GetCommonAnswer(); }
 
 
             public GroupsAnswer(string rawGroupAnswers)
             {
-                personAnswers = rawGroupAnswers.Split("\n").ToList();
-                allAnswers = rawGroupAnswers.Replace("\n", "");
-                DistinctAnswers = allAnswers.Distinct<char>();
+                // each persons answers get split at newline
+                personAnswers = rawGroupAnswers.Split(Environment.NewLine).ToList();
+                // all persons answers in the same list
+                allAnswers = rawGroupAnswers.Replace(Environment.NewLine, "");
+                // only distinct answers from the group
+                DistinctAnswers = allAnswers.Distinct<char>().ToList();
             }
 
+            // Returns a string of questions that all members of the group answers
             private string GetCommonAnswer()
             {
                 char[] commonAnswers = personAnswers[0].ToArray();
@@ -81,21 +74,9 @@ namespace AdventOfCode
                         char[] tempArray = personAnswers[i].ToArray();
                         commonAnswers = commonAnswers.Intersect(tempArray).ToArray();
                     }
-
                 }
-
                 return new string(commonAnswers);
             }
-
-            public void Print()
-            {
-                foreach (char letter in DistinctAnswers)
-                {
-                    Console.Write(letter);
-                }
-                Console.Write("\n");
-            }
-
         }
     }
 }

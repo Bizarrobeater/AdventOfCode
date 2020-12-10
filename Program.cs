@@ -17,7 +17,7 @@ namespace AdventOfCode
             // answer: 19208
             //WithTestDataPart2();
 
-            var test = new Dec04();
+            var test = new Dec09();
             //test.PrintTest();
             test.Timer("Solution1", test.Solution1);
             test.Timer("Solution2", test.Solution2);

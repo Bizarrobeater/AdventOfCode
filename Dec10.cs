@@ -14,19 +14,6 @@ namespace AdventOfCode
         {
         }
 
-        private List<int> AddMissingData(List<int> dataList)
-        {
-            // List starts at 0
-            int min = 0;
-            int max = dataList.Max() + 3;
-            List<int> newData = new List<int>(dataList);
-
-            newData.Add(min);
-            newData.Add(max);
-
-            return newData;
-        }
-
         //
         // Finds the number of differences between sequential numbers.
         // differences can be 1-2-3, multiplys the count of 1 diff and 3 diff

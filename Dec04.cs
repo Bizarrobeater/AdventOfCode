@@ -18,6 +18,8 @@ namespace AdventOfCode
 
         }
 
+        // validation of passports - counts all the passport validated by simple rules
+        // Correct answer: 210
         public override int Solution1()
         {
             int counter = 0;
@@ -31,6 +33,8 @@ namespace AdventOfCode
             return counter;
         }
 
+        // validation of passport with complex rules
+        // Correct answer: 131
         public override int Solution2()
         {
             int counter = 0;
@@ -44,12 +48,12 @@ namespace AdventOfCode
             return counter;
         }
 
+        // class for passports - each instance gets all the data from a single passport - validation is run internally
         internal class Passport
         {
             string ecl;
             string hgt;
             string pid;
-            //string cid;
             string hcl;
 
             int byr = -1;
@@ -165,9 +169,6 @@ namespace AdventOfCode
                     case "pid":
                         pid = value;
                         break;
-                    //case "cid":
-                    //    cid = value;
-                    //    break;
                     case "hcl":
                         hcl = value;
                         break;
