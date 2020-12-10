@@ -7,6 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Update="DataSources\AdventCode10Dec.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="DataSources\AdventCode1Dec1input.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

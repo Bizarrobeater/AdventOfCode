@@ -14,11 +14,11 @@ namespace AdventOfCode
    
             //WithTestData();
 
-            var test = new Dec9();
+            var test = new Dec10();
             //test.testQueue();
 
-            //Console.WriteLine(test.SolutionPart1Long());
-            Console.WriteLine(test.SolutionPart2Long());
+            Console.WriteLine(test.SolutionPart1());
+            //Console.WriteLine(test.SolutionPart2Long());
 
 
 
@@ -28,8 +28,8 @@ namespace AdventOfCode
 
         static void WithTestData()
         {
-            Dec9 test = new Dec9(TestData.Dec9Part1);
-            Console.WriteLine(test.SolutionPart2Long());
+            Dec10 test = new Dec10(TestData.Dec10Part1);
+            Console.WriteLine(test.SolutionPart1());
         }
 
 
