@@ -17,7 +17,7 @@ namespace AdventOfCode
             // answer: 19208
             //WithTestDataPart2();
 
-            var test = new Dec01();
+            var test = new Dec04();
             //test.PrintTest();
             test.Timer("Solution1", test.Solution1);
             test.Timer("Solution2", test.Solution2);
@@ -30,17 +30,17 @@ namespace AdventOfCode
             //Console.WriteLine(stopwatch.ElapsedMilliseconds);
         }
 
-        static void WithTestDataPart1()
-        {
-            tbremoved test = new tbremoved(TestData.Dec10);
-            Console.WriteLine(test.SolutionPart1());
-        }
+        //static void WithTestDataPart1()
+        //{
+        //    tbremoved test = new tbremoved(TestData.Dec10);
+        //    Console.WriteLine(test.SolutionPart1());
+        //}
 
-        static void WithTestDataPart2()
-        {
-            tbremoved test = new tbremoved(TestData.Dec10);
-            Console.WriteLine(test.SolutionPart2Long());
-        }
+        //static void WithTestDataPart2()
+        //{
+        //    tbremoved test = new tbremoved(TestData.Dec10);
+        //    Console.WriteLine(test.SolutionPart2Long());
+        //}
 
 
 

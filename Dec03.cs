@@ -4,23 +4,20 @@ using System.Text;
 
 namespace AdventOfCode
 {
-    public class Dec3 : ISolution
+    public class Dec03 : AdventCodeBase<string, long>
     {
-
-        List<string> dataList;
         int width;
 
-        public List<string> DataList { get => dataList; }
-
-        public Dec3()
+        public Dec03() : base(ReadDataFile.FileToListSimple)
         {
-            dataList = ReadDataFile.FileToListSimple("AdventCode3Dec.txt");
             width = dataList[0].Length;
         }
 
+        // Given a slope (moved columns and rows)
+        // returns the number of trees(#) hit
         private int TreeCounter(int columnsMove, int rowMove)
         {
-            List<string> list = new List<string>(DataList);
+            List<string> list = new List<string>(dataList);
             int columnPos = 0;
 
             int treeCount = 0;
@@ -29,6 +26,7 @@ namespace AdventOfCode
             {
                 string row = list[i];
                 columnPos += columnsMove;
+                // Resets column position at overflow
                 if (columnPos > width - 1)
                 {
                     columnPos -= width;
@@ -38,21 +36,30 @@ namespace AdventOfCode
                 {
                     treeCount++;
                 }
-
             }
             return treeCount;
         }
 
-        public long SolutionPart2Long()
+        // Counts the number of tree(#) hits in a decent given by a slope
+        // Correct answer: 284
+        public override long Solution1()
+        {
+            return TreeCounter(3, 1);
+        }
+
+        // a list of different slopes are provided
+        // the number of trees hit are multiplied
+        // Correct answer: 3.510.149.120
+        public override long Solution2()
         {
             int[,] slopes = new int[,]
-{
+            {
                 {1, 1},
                 {3, 1},
                 {5, 1},
                 {7, 1},
                 {1, 2},
-};
+            };
 
             long multiplication = 1;
 
@@ -61,21 +68,7 @@ namespace AdventOfCode
                 multiplication *= TreeCounter(slopes[i, 0], slopes[i, 1]);
             }
 
-
             return multiplication;
-        }
-
-
-        public int SolutionPart1()
-        {
-            return TreeCounter(3,1);
-        }
-
-        public int SolutionPart2()
-        {
-            // Result larger than Int can handle
-
-            return -1;
         }
     }
 }
