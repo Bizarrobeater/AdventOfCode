@@ -119,5 +119,14 @@ namespace AdventOfCode
             "L.LLLLL.LL",
         };
 
+        public static List<string> Dec12Part1 = new List<string>
+        {
+            "F10",
+            "N3",
+            "F7",
+            "R90",
+            "F11",
+        };
+
     }
 }
