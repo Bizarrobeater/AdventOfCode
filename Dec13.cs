@@ -27,8 +27,8 @@ namespace AdventOfCode
             dataList.Add("Thrown");
             dataList.Add(testDataKey);
         }
-
-
+        
+        //
         // finds the earliest time after a specified time that a bus can be taken
         // result is the bus number times the number of minutes waited
         // Correct answer: 370
@@ -36,45 +36,33 @@ namespace AdventOfCode
         {
             // Finds earliest bus and relevant busses based on the provided data
             long EarliestTime = Int64.Parse(dataList[0]); ;
-            List<int> BusSimple = new List<int>();
-            List<string> temp = dataList[1].Split(',').ToList();
-            int busNumb = 0;
-            foreach (string bus in temp)
-            {
-                if (Int32.TryParse(bus, out busNumb))
-                    BusSimple.Add(busNumb);
-                busNumb = 0;
-            }
+            List<string> busList = dataList[1].Split(',').ToList();
 
-
+            int busNumber;
             int fastestBus = 0;
-            int lowestCount = -1;
-            int counter;
-            
-            // for each numbered bus
-            foreach (int busNumber in BusSimple)
+            int lowestCount = 10000;          
+            foreach (string busString in busList)
             {
-                counter = 0;
-                // loop runs while
-                while ((EarliestTime + counter) % busNumber != 0)  // the busnumber will arrive the the current time
+                // continue if it is not a busnumber
+                if (!Int32.TryParse(busString, out busNumber))
+                    continue;
+
+                for (int i = 0; i < lowestCount; i++)
                 {
-                    counter++;
-                }
-                // if the counter is lower than the current lowest (that isn't -1)
-                if (lowestCount == -1 || counter < lowestCount)
-                {
-                    // change fastest time and busnumber
-                    lowestCount = counter;
-                    fastestBus = busNumber;
+                    if ((EarliestTime + i) % busNumber == 0)
+                    {
+                        // change fastest time and busnumber
+                        lowestCount = i;
+                        fastestBus = busNumber;
+                    }
                 }
             }
-
             return lowestCount * fastestBus;
         }
 
-
+        //
         // Finds the earliest timestamp t where busses with 1 minutes between each on the list
-        // x's means no constraints, numbers mean that a specific bus must go there
+        // x's means no constraints, numbers mean that the specific bus must go there
         // Correct Answer: 894.954.360.381.385
         public override long Solution2()
         {
