@@ -128,5 +128,27 @@ namespace AdventOfCode
             "F11",
         };
 
+        // Solution for part 1: 295
+        public static List<string> Dec13Part1 = new List<string>
+        {
+            "939",
+            "7,13,x,x,59,x,31,19",
+        };
+
+        // Dictionary of example list and their correct data
+        public static Dictionary<string, long> Dec13Part2 = new Dictionary<string, long>
+        {
+            {"3,x,7", 12 },
+            {"7,x,3", 7 },
+            {"6,x,x,x,17", 30 },
+            {"7,x,x,4,x,11", 105 },
+            { "7,13,x,x,59,x,31,19", 1_068_781 },
+            { "17,x,13,19", 3_417},
+            { "67,7,59,61", 754_018},
+            { "67,x,7,59,61", 779_210},
+            { "67,7,x,59,61", 1_261_476},
+            { "1789,37,47,1889", 1_202_161_486},
+
+        };
     }
 }

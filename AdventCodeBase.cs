@@ -16,6 +16,7 @@ namespace AdventOfCode
         internal List<T> dataList;
 
 
+
         // For main data
         public AdventCodeBase(Func<string, List<T>> DataReader)
         {
@@ -27,6 +28,11 @@ namespace AdventOfCode
         public AdventCodeBase(List<T> testData)
         {
             dataList = testData;
+        }
+
+        // For expanded abstractions
+        protected AdventCodeBase()
+        {
         }
 
         public abstract U Solution1();
