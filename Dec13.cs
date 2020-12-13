@@ -27,8 +27,8 @@ namespace AdventOfCode
             dataList.Add("Thrown");
             dataList.Add(testDataKey);
         }
-
-
+        
+        //
         // finds the earliest time after a specified time that a bus can be taken
         // result is the bus number times the number of minutes waited
         // Correct answer: 370
@@ -45,13 +45,10 @@ namespace AdventOfCode
                     BusSimple.Add(busNumb);
                 busNumb = 0;
             }
-
-
+            
             int fastestBus = 0;
             int lowestCount = -1;
-            int counter;
-            
-            // for each numbered bus
+            int counter;            
             foreach (int busNumber in BusSimple)
             {
                 counter = 0;
@@ -68,13 +65,12 @@ namespace AdventOfCode
                     fastestBus = busNumber;
                 }
             }
-
             return lowestCount * fastestBus;
         }
 
-
+        //
         // Finds the earliest timestamp t where busses with 1 minutes between each on the list
-        // x's means no constraints, numbers mean that a specific bus must go there
+        // x's means no constraints, numbers mean that the specific bus must go there
         // Correct Answer: 894.954.360.381.385
         public override long Solution2()
         {
