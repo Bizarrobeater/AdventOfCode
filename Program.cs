@@ -16,7 +16,7 @@ namespace AdventOfCode
 
 
             var test = new Dec13();
-            //test.Timer("Solution1", test.Solution1);
+            test.Timer("Solution1", test.Solution1);
             test.Timer("Solution2", test.Solution2);
         }
 
