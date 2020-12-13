@@ -78,54 +78,39 @@ namespace AdventOfCode
         // Correct Answer: 894.954.360.381.385
         public override long Solution2()
         {
-            // Dictionary of the busnumbers and the index they should appear in
-            Dictionary<int, int> busIndexDict = new Dictionary<int, int>();
+            // Splitting the relevent row to a list
             List<string> tempList = dataList[1].Split(',').ToList();
-            for (int i = 0; i < tempList.Count; i++)
-            {
-                int busNumber;
-                if (Int32.TryParse(tempList[i], out busNumber))
-                {
-                    busIndexDict.Add(busNumber, i);
-                }
-            }
-
-            // Gets a list of the busNumbers
-            List<int> busList = new List<int>(busIndexDict.Keys.ToList());
 
             // minimum timestamp must be equal to first bus number
-            long currTimeStamp = busList[0];
-            long sumMultiplier = busList[0];
+            long currTimeStamp = Int32.Parse(tempList[0]);
+            // this multiplier is the product of all busnumbers that has been passed
+            long productMultiplier = currTimeStamp;
 
             // variable used in the loop
             long currMultiplier;
-            int currIndex;
             int currBus;
             long tempTimeStamp;
-            for (int i = 1; i < busList.Count; i++)
+            for (int i = 1; i < tempList.Count; i++)
             {
-                // current bus
-                currBus = busList[i];
-                // the amount of minutes after the first the current bus must appear
-                currIndex = busIndexDict[currBus];
+                // current bus, if not a number continue to the next bus
+                if (!Int32.TryParse(tempList[i], out currBus))
+                    continue;                
 
                 // multiplier for current timestamp
                 currMultiplier = 0;
-                tempTimeStamp = currTimeStamp + currIndex;
+                tempTimeStamp = currTimeStamp + i;
 
                 // adding multipliers to the timestamp (plus the current bus' index) until the modulus is 0
-
                 while (tempTimeStamp % currBus != 0)
                 {
                     currMultiplier++;
-                    tempTimeStamp = currTimeStamp + sumMultiplier * currMultiplier + currIndex;
+                    tempTimeStamp = currTimeStamp + productMultiplier * currMultiplier + i;
                 }
 
                 // this multiplier is the product of the times of all preceding busses
-                sumMultiplier *= currBus;
+                productMultiplier *= currBus;
                 // current timestamp is updated
-                currTimeStamp = tempTimeStamp - currIndex;
-
+                currTimeStamp = tempTimeStamp - i;
             }
             return currTimeStamp;
         }
