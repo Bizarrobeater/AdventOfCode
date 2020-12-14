@@ -16,8 +16,8 @@ namespace AdventOfCode
 
 
             var test = new Dec14();
-            test.Timer("Solution1", test.Solution1);
-            //test.Timer("Solution2", test.Solution2);
+            //test.Timer("Solution1", test.Solution1);
+            test.Timer("Solution2", test.Solution2);
         }
 
         static void WithTestDataPart1()
@@ -29,7 +29,7 @@ namespace AdventOfCode
 
         static void WithTestDataPart2()
         {
-            var test = new Dec12(TestData.Dec12Part1);
+            var test = new Dec14(TestData.Dec14Part2);
             Console.WriteLine(test.Solution2());
             //test.test();
         }

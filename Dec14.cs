@@ -17,6 +17,9 @@ namespace AdventOfCode
         {
         }
 
+
+        // Get the sum of values of all the memories
+        // Correct answer: 9.615.006.043.476
         public override long Solution1()
         {
             MemoryList memory = null;
@@ -32,15 +35,28 @@ namespace AdventOfCode
             return memory.SumOfMemory;
         }
 
+
+        // bitmask now changes the memory address to include floating values
+        // meaning addresses are masked and can contain several addresses as X's are now floating
         public override long Solution2()
         {
-            throw new NotImplementedException();
+            MemoryListAdv memory = null;
+            foreach (string instruction in dataList)
+            {
+                if (memory == null)
+                    memory = new MemoryListAdv(instruction);
+                else
+                {
+                    memory.NewInstruction(instruction);
+                }
+            }
+            return memory.SumOfMemory;
         }
 
         internal class MemoryList
         {
-            List<Memory> memories = null;
-            private string currentBitmask;
+            internal List<Memory> memories = null;
+            internal string currentBitmask;
 
             public long SumOfMemory { get => GetSumOfMemories(); }
 
@@ -49,67 +65,200 @@ namespace AdventOfCode
                 UpdateBitmask(firstInstruction);
             }
 
-            public void NewInstruction(string instruction)
+            public virtual void NewInstruction(string instruction)
             {
                 if (instruction.Substring(0, 4) == "mask")
                     UpdateBitmask(instruction);
                 else
-                    AddToMemory(instruction);
+                {
+                    int memAddress;
+                    string valueToAdd;
+                    SplitInstruction(instruction, out memAddress, out valueToAdd);
+                    AddToMemory(memAddress, valueToAdd);
+                }    
             }
 
-            private void UpdateBitmask(string bitmask)
-            {
-                string[] temp = bitmask.Split(" = ");
-                currentBitmask = temp[1];
-            }
-
-            private void AddToMemory(string instruction)
+            internal void SplitInstruction(string instruction, out int memAddress, out string valueToAdd)
             {
                 Regex rx = new Regex(@"mem\[(\d+)\] = (\d+)");
                 Match match = rx.Match(instruction);
                 GroupCollection groups = match.Groups;
 
-                int memId = Int32.Parse(groups[1].ToString());
-                string valueToAdd = groups[2].ToString();
-                
+                memAddress = Int32.Parse(groups[1].ToString());
+                valueToAdd = groups[2].ToString();
+            }
+
+            internal virtual void UpdateBitmask(string bitmask)
+            {
+                string[] temp = bitmask.Split(" = ");
+                currentBitmask = temp[1];
+            }
+
+            internal virtual void AddToMemory(long memAddress, string valueToAdd)
+            {
+                char[] binValueToAdd = ConvertLongToBin(valueToAdd);
+
                 if (memories == null)
                 {
                     memories = new List<Memory>
                     {
-                        new Memory(memId, valueToAdd, currentBitmask),
+                        MemoryConstr.NewMemory(memAddress, binValueToAdd, currentBitmask),
                     };
                 }
-                else if (memories.Exists(x => x.Id == memId))
+                else if (memories.Exists(x => x.Address == memAddress))
                 {
-                    memories.Find(x => x.Id == memId).UpdateBinaryValue(valueToAdd, currentBitmask);
+                    memories.Find(x => x.Address == memAddress).UpdateBinaryValue(binValueToAdd, currentBitmask);
                 }
                 else
                 {
-                    memories.Add(new Memory(memId, valueToAdd, currentBitmask));
+                    memories.Add(MemoryConstr.NewMemory(memAddress, binValueToAdd, currentBitmask));
                 }
             }
 
-            private long GetSumOfMemories()
+            // Converts long to binary Int36
+            internal char[] ConvertLongToBin(string value)
+            {
+                long tempLong = Int64.Parse(value);
+                string binaryValueRev = "";
+                for (int i = 35; i >= 0; i--)
+                {
+                    if ((int)(tempLong / Math.Pow(2, i)) == 0)
+                    {
+                        binaryValueRev += "0";
+                    }
+                    else
+                    {
+                        binaryValueRev += "1";
+                        tempLong -= (long)Math.Pow(2, i);
+                    }
+                }
+                char[] binaryValue = binaryValueRev.ToCharArray();
+                return binaryValue;
+            }
+
+            internal long GetSumOfMemories()
             {
                 long sum = 0;
                 foreach(Memory memory in memories)
                 {
-                    sum += memory.value;
+                    sum += ConvertBinToLong(memory.BinaryValue);
                 }
                 return sum;
+            }
+
+            // translate the binary value to long
+            // (damn you int36)
+            internal long ConvertBinToLong(char[] binary)
+            {
+                long value = 0;
+                char[] binaryRev = binary;
+                Array.Reverse(binaryRev);
+                for (int i = 0; i < binaryRev.Length; i++)
+                {
+                    value += (long)Math.Pow(2, i) * Int32.Parse(binaryRev[i].ToString());
+                }
+                return value;
+            }
+        }
+
+        internal class MemoryListAdv : MemoryList
+        {
+            private string currentAddressBitmask;
+            public MemoryListAdv(string firstInstruction) : base(firstInstruction)
+            {
+
+            }
+
+            internal override void UpdateBitmask(string bitmask)
+            {
+                base.UpdateBitmask(bitmask);
+                currentAddressBitmask = currentBitmask;
+                currentBitmask = "";
+            }
+
+            public override void NewInstruction(string instruction)
+            {
+                if (instruction.Substring(0, 4) == "mask")
+                {
+                    UpdateBitmask(instruction);
+                    return;
+                }
+
+                int memBaseAddress;
+                string valueToAdd;
+                SplitInstruction(instruction, out memBaseAddress, out valueToAdd);
+
+                char[] baseAddress = ConvertLongToBin(memBaseAddress.ToString());
+                // makes a address list starting with 1 empty address
+                List<string> memAddressesBin = new List<string>
+                {
+                    "",
+                };
+
+                for (int i = 0; i < baseAddress.Length; i++)
+                {
+                    if (currentAddressBitmask[i] == '0')
+                    {
+                        UpdateListStrings(ref memAddressesBin, baseAddress[i]);
+                    }
+                    else if (currentAddressBitmask[i] == '1')
+                    {
+                        UpdateListStrings(ref memAddressesBin, '1');
+                    }
+                    // makes a copy of the current list
+                    else
+                    {
+                        // makes a copy of the address list
+                        List<string> tempList = new List<string>(memAddressesBin);
+                        // address list gets added 1
+                        UpdateListStrings(ref memAddressesBin, '1');
+                        // copy gets added 0
+                        UpdateListStrings(ref tempList, '0');
+                        // copy is rolled into addresslist
+                        memAddressesBin.AddRange(tempList);
+                    }
+                }
+
+                long address;
+                char[] reversedAddress;
+                foreach (string binAddress in memAddressesBin)
+                {
+                    reversedAddress = binAddress.ToCharArray();
+                    Array.Reverse(reversedAddress);
+                    address = ConvertBinToLong(reversedAddress);
+                    AddToMemory(address, valueToAdd);
+                }
+            }
+
+            private void UpdateListStrings(ref List<string> listOfStrings, char c)
+            {
+                for (int i = 0; i < listOfStrings.Count; i++)
+                {
+                    listOfStrings[i] += c;
+                }
+            }
+        }
+
+        static class MemoryConstr
+        {
+            static public Memory NewMemory(long address, char[] addedValue, string currentBitmask = "")
+            {
+                if (currentBitmask == "")
+                    return new Memory(address, addedValue);
+                else
+                    return new MemoryAdv(address, addedValue, currentBitmask);
             }
         }
 
         internal class Memory : IEquatable<Memory>
         {
-            public int Id { get; init; }
-            private char[] reversedBinaryValue;
+            public long Address { get; init; }
+            internal char[] _binaryValue;
+            public char[] BinaryValue { get => _binaryValue; }
 
-            public long value { get => GetValue(); }
-
-            public Memory(int Id, string addedValue, string currentBitmask)
+            public Memory(long address, char[] addedValue)
             {
-                this.Id = Id;
+                this.Address = address;
                 string tempString = "";
                 // initialises the binaryvalue at 0
                 for (int i = 0; i < 36; i++)
@@ -117,74 +266,59 @@ namespace AdventOfCode
                     tempString += "0";
                 }
 
-                reversedBinaryValue = tempString.ToCharArray();
-                UpdateBinaryValue(addedValue, currentBitmask);
+                _binaryValue = tempString.ToCharArray();
+                UpdateBinaryValue(addedValue);
             }
 
             // Updates the binary value based on the input and bitmask
-            public void UpdateBinaryValue(string addedValue, string currentBitmask)
-            {
-                // reverses the memory so it goes 2^0 -> 2^35                
-                char[] reversedBitmask = currentBitmask.ToCharArray();
-                Array.Reverse(reversedBitmask);
-
-                char[] reversedBinary = ConvertValueToBin(addedValue);
-                Array.Reverse(reversedBinary);
-
-                for (int i = 0; i < reversedBitmask.Length; i++)
-                {
-                    if (reversedBitmask[i] != 'X')
-                    {
-                        reversedBinaryValue[i] = reversedBitmask[i];
-                    }
-                    else if (i < reversedBinary.Length)
-                    {
-                        reversedBinaryValue[i] = reversedBinary[i];
-                    }
-                }
+            public virtual void UpdateBinaryValue(char[] addedValue, string currentBitMask = "")
+            {           
+                _binaryValue = addedValue;
             }
-
-            private char[] ConvertValueToBin(string value)
-            {
-                long tempLong = Int64.Parse(value);
-                string binaryValue = "";
-                for (int i = 35; i >= 0; i--)
-                {
-                    if ((int)(tempLong / Math.Pow(2, i)) == 0)
-                    {
-                        binaryValue += "0";
-                    }
-                    else
-                    {
-                        binaryValue += "1";
-                        tempLong -= (long)Math.Pow(2, i);
-                    }
-                }
-
-                return binaryValue.ToCharArray();
-            }
-
-
-            // translate the binary value to long
-            // (damn you int36)
-            private long GetValue()
-            {
-                long value = 0;
-                for (int i = 0; i < reversedBinaryValue.Length; i++)
-                {
-                    value += (long)Math.Pow(2, i) * Int32.Parse(reversedBinaryValue[i].ToString());
-                }
-                return value;
-            }
-
 
             // Used to find existing memories
             public bool Equals(Memory other)
             {
                 if (other == null) return false;
-                return (this.Id.Equals(other.Id));
+                return (this.Address.Equals(other.Address));
+            }
+        }
+
+        internal class MemoryAdv : Memory
+        {
+            public MemoryAdv(long address, char[] addedValue, string currentBitmask) : base(address, addedValue)
+            {
+                //this.Address = address;
+                //string tempString = "";
+                //// initialises the binaryvalue at 0
+                //for (int i = 0; i < 36; i++)
+                //{
+                //    tempString += "0";
+                //}
+
+                //_reversedBinaryValue = tempString.ToCharArray();
+                UpdateBinaryValue(addedValue, currentBitmask);
             }
 
+            public override void UpdateBinaryValue(char[] addedValue, string currentBitmask)
+            {
+                if (currentBitmask == "")
+                    return;
+
+                char[] reversedBitmask = currentBitmask.ToCharArray();
+
+                for (int i = 0; i < reversedBitmask.Length; i++)
+                {
+                    if (reversedBitmask[i] != 'X')
+                    {
+                        _binaryValue[i] = reversedBitmask[i];
+                    }
+                    else
+                    {
+                        _binaryValue[i] = addedValue[i];
+                    }
+                }
+            }
         }
     }
 }
