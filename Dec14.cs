@@ -38,7 +38,7 @@ namespace AdventOfCode
 
         // bitmask now changes the memory address to include floating values
         // meaning addresses are masked and can contain several addresses as X's are now floating
-        // Correct Answer: 4.275.496.544.925, but SUPER slow (+30 sec)
+        // Correct Answer: 4.275.496.544.925
         public override long Solution2()
         {
             MemoryListAdv memory = null;
@@ -99,20 +99,31 @@ namespace AdventOfCode
             {
                 char[] binValueToAdd = ConvertLongToBin(valueToAdd);
 
+                int index;
+                Memory newMemory = MemoryConstr.NewMemory(memAddress, binValueToAdd, currentBitmask);
+
                 if (memories == null)
                 {
                     memories = new List<Memory>
                     {
-                        MemoryConstr.NewMemory(memAddress, binValueToAdd, currentBitmask),
+                        newMemory,
                     };
                 }
-                else if (memories.Exists(x => x.Address == memAddress))
+                else if (BinarySearch.ItemExists<Memory>(memories, newMemory, out index))
                 {
-                    memories.Find(x => x.Address == memAddress).UpdateBinaryValue(binValueToAdd, currentBitmask);
+                    memories[index].UpdateBinaryValue(binValueToAdd, currentBitmask);
                 }
                 else
                 {
-                    memories.Add(MemoryConstr.NewMemory(memAddress, binValueToAdd, currentBitmask));
+                    if (newMemory.CompareTo(memories[index]) > 0)
+                    {
+                        if (index == memories.Count - 1)
+                            memories.Add(newMemory);
+                        else
+                            memories.Insert(index + 1, newMemory);
+                    }
+                    else
+                        memories.Insert(index, newMemory);
                 }
             }
 
@@ -251,7 +262,7 @@ namespace AdventOfCode
             }
         }
 
-        internal class Memory : IEquatable<Memory>
+        internal class Memory : IEquatable<Memory>, IComparable<Memory>
         {
             public long Address { get; init; }
             internal char[] _binaryValue;
@@ -282,6 +293,11 @@ namespace AdventOfCode
             {
                 if (other == null) return false;
                 return (this.Address.Equals(other.Address));
+            }
+
+            public int CompareTo(Memory obj)
+            {
+                return Address.CompareTo(obj.Address);
             }
         }
 
