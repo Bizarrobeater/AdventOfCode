@@ -38,6 +38,7 @@ namespace AdventOfCode
 
         // bitmask now changes the memory address to include floating values
         // meaning addresses are masked and can contain several addresses as X's are now floating
+        // Correct Answer: 4.275.496.544.925, but SUPER slow (+30 sec)
         public override long Solution2()
         {
             MemoryListAdv memory = null;
@@ -288,15 +289,6 @@ namespace AdventOfCode
         {
             public MemoryAdv(long address, char[] addedValue, string currentBitmask) : base(address, addedValue)
             {
-                //this.Address = address;
-                //string tempString = "";
-                //// initialises the binaryvalue at 0
-                //for (int i = 0; i < 36; i++)
-                //{
-                //    tempString += "0";
-                //}
-
-                //_reversedBinaryValue = tempString.ToCharArray();
                 UpdateBinaryValue(addedValue, currentBitmask);
             }
 
