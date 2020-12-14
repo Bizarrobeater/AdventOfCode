@@ -148,7 +148,24 @@ namespace AdventOfCode
             { "67,x,7,59,61", 779_210},
             { "67,7,x,59,61", 1_261_476},
             { "1789,37,47,1889", 1_202_161_486},
+        };
 
+        // Solution: 165
+        public static List<string> Dec14Part1 = new List<string>
+        {
+            "mask = XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X",
+            "mem[8] = 11",
+            "mem[7] = 101",
+            "mem[8] = 0",
+        };
+
+        // Solution: 208
+        public static List<string> Dec14Part2 = new List<string>
+        {
+            "mask = 000000000000000000000000000000X1001X",
+            "mem[42] = 100",
+            "mask = 00000000000000000000000000000000X0XX",
+            "mem[26] = 1",
         };
     }
 }
