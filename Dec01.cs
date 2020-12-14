@@ -13,21 +13,20 @@ namespace AdventOfCode
 
         // finds the 2 numbers in a list that sums to 2020
         // result is the 2 numbers multiplied
-        // Correct answer: 121396
+        // Correct answer: 121.396
         public override long Solution1()
         {
             List<int> tempList = new List<int>(dataList);
             // Sorting the list to make a binary search
             tempList.Sort();
             int goalNumber;
-            BinarySearch search = new BinarySearch(tempList);
             int resultIndex;
 
             // Bruteforcing solution
             foreach (int i in tempList)
             {
                 goalNumber = 2020 - i;
-                resultIndex = search.FindIndex(goalNumber);
+                resultIndex = BinarySearch.FindIndexSimple(tempList, goalNumber);
 
 
                 if (resultIndex >= 0)
@@ -46,7 +45,6 @@ namespace AdventOfCode
             List<int> tempList = new List<int>(dataList);
             tempList.Sort();
             int goalNumber;
-            BinarySearch baseSearch = new BinarySearch(tempList);
             int resultIndex;
 
             // Starts by finding 1 number from the low end of list
@@ -57,7 +55,7 @@ namespace AdventOfCode
                 {
                     goalNumber = 2020 - tempList[i] - tempList[j];
                     // performs binary search
-                    resultIndex = baseSearch.FindIndex(goalNumber);
+                    resultIndex = BinarySearch.FindIndexSimple(tempList, goalNumber);
 
                     // if a index is found returns the result
                     if (resultIndex >= 0)
