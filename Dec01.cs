@@ -26,7 +26,7 @@ namespace AdventOfCode
             foreach (int i in tempList)
             {
                 goalNumber = 2020 - i;
-                resultIndex = BinarySearch.FindIndexSimple(tempList, goalNumber);
+                resultIndex = BinarySearch.FindIndex(tempList, goalNumber, out bool thrown);
 
 
                 if (resultIndex >= 0)
@@ -37,6 +37,9 @@ namespace AdventOfCode
             // In case of no correct answer
             return -1;
         }
+
+
+        // TODO: fix binary search in both solutions
 
         // Same deal, but now with 3 numbers
         // Correct answer is: 73.616.634
@@ -55,7 +58,7 @@ namespace AdventOfCode
                 {
                     goalNumber = 2020 - tempList[i] - tempList[j];
                     // performs binary search
-                    resultIndex = BinarySearch.FindIndexSimple(tempList, goalNumber);
+                    resultIndex = BinarySearch.FindIndex(tempList, goalNumber, out bool thrown);
 
                     // if a index is found returns the result
                     if (resultIndex >= 0)

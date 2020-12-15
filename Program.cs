@@ -12,12 +12,12 @@ namespace AdventOfCode
             //WithTestDataPart1();
             //WithTestDataPart2();
 
-            //TestManyCases();
+            TestManyCases();
 
 
-            var test = new Dec14();
+            //var test = new Dec15();
             //test.Timer("Solution1", test.Solution1);
-            test.Timer("Solution2", test.Solution2);
+            //test.Timer("Solution2", test.Solution2);
         }
 
         static void WithTestDataPart1()
@@ -36,7 +36,7 @@ namespace AdventOfCode
 
         static void TestManyCases()
         {
-            var test = new Dec13(TestData.Dec13Part2);
+            var test = new Dec15(TestData.Dec15Part2);
             test.TestAllCases(test.Solution2);
 
         }

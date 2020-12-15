@@ -8,9 +8,25 @@ namespace AdventOfCode
     {
         public static bool ItemExists(List<int> list, int searchTerm, out int index)
         {
-            index = FindIndexSimple(list, searchTerm);
-            return (index >= 0);
+            index = FindIndex(list, searchTerm, out bool found);
+            if (!found && index == list.Count && searchTerm > list[index])
+            {
+                index++;
+            }
+            return found;
         }
+
+        public static bool ItemExists(List<long> list, long searchTerm, out int index)
+        {
+            index = FindIndex(list, searchTerm, out bool found);
+            if (!found && searchTerm > list[index])
+            {
+                index++;
+            }
+            return found;
+        }
+
+
 
         public static bool ItemExists<T>(List<T> list, T searchTerm, out int index) where T : IComparable<T>
         {
@@ -46,11 +62,12 @@ namespace AdventOfCode
             return mid;
         }
 
-        public static int FindIndexSimple(List<int> list, int number)
+        public static int FindIndex(List<int> list, int number, out bool found)
         {
             int low = 0;
             int high = list.Count - 1;
-            int mid;
+            int mid = 0;
+            found = false;
 
             while (low <= high)
             {
@@ -65,10 +82,38 @@ namespace AdventOfCode
                 }
                 else
                 {
+                    found = true;
                     return mid;
-                }               
+                }
             }
-            return -1;
+            return mid;
+        }
+
+        public static int FindIndex(List<long> list, long number, out bool found)
+        {
+            int low = 0;
+            int high = list.Count - 1;
+            int mid = 0;
+            found = false;
+
+            while (low <= high)
+            {
+                mid = (high + low) / 2;
+                if (list[mid] < number)
+                {
+                    low = mid + 1;
+                }
+                else if (list[mid] > number)
+                {
+                    high = mid - 1;
+                }
+                else
+                {
+                    found = true;
+                    return mid;
+                }
+            }
+            return mid;
         }
     }
 }
