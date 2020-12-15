@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace AdventOfCode
 {
@@ -27,6 +28,7 @@ namespace AdventOfCode
         // Goes trough all the testcases with the given solution function
         public void TestAllCases(Func<U> solutionMethod)
         {
+            Stopwatch watch = new Stopwatch();
             if (testDict == null)
             {
                 Console.WriteLine("No test cases found for chosen solution");
@@ -38,10 +40,13 @@ namespace AdventOfCode
                 ConvertTestDataToUseful(kvp.Key);
                 Console.WriteLine($"Testing {kvp.Key.GetType().Name}: {kvp.Key}");
                 Console.WriteLine($"Expected result: {kvp.Value}");
-
+                watch.Start();
                 U result = solutionMethod();
+                watch.Stop();
                 Console.WriteLine($"Calculated answer: {result}");
+                Console.WriteLine($"Milliseconds taken: {watch.ElapsedMilliseconds}");
                 Console.WriteLine(Environment.NewLine);
+                watch.Reset();
             }
         }
     }
