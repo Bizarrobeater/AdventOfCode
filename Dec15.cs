@@ -38,50 +38,32 @@ namespace AdventOfCode
 
         private int GenerelSolution(int maxTurn)
         {
-            Dictionary<int, int[]> memoryGame = new Dictionary<int, int[]>();
-
+            Dictionary<int, int> memoryGame = new Dictionary<int, int>();
             
             // Initialising the game with the provided starting numbers
-            for (int i = 1; i <= startNumbs.Count; i++)
+            for (int i = 0; i < startNumbs.Count; i++)
             {
-                memoryGame[startNumbs[i - 1]] = new int[] { 0, i };
+                memoryGame[startNumbs[i]] = i + 1;
             }
-            
-            int lastNumber = startNumbs[startNumbs.Count - 1];
-            int[] lastAppeared;
-            int newNumber;
+
+            int currNumber = -1;
+            int nextNumber = 0;
+            int lastAppeared;
 
             for (int i = startNumbs.Count + 1; i <= maxTurn; i++)
             {
-                lastAppeared = memoryGame[lastNumber];
-
-                if (lastAppeared[0] == 0)
+                currNumber = nextNumber;
+                if (memoryGame.TryGetValue(currNumber, out lastAppeared))
                 {
-                    // if the last number was said for the first time, the current number is 0
-                    newNumber = 0;
+                    nextNumber = i - lastAppeared;
                 }
                 else
                 {
-                    // if the number has appeared before
-                    // the new number is calculated based on the difference between it 2 last appearances
-                    newNumber = lastAppeared[1] - lastAppeared[0];
+                    nextNumber = 0;
                 }
-
-                if (memoryGame.ContainsKey(newNumber))
-                {
-                    // if the new number has appeared before in the memory game the appearence is updated
-                    memoryGame[newNumber][0] = memoryGame[newNumber][1];
-                    memoryGame[newNumber][1] = i;
-                }
-                else
-                {
-                    // else it is added to the dict
-                    memoryGame[newNumber] = new int[] { 0, i };
-                }
-
-                lastNumber = newNumber;
+                memoryGame[currNumber] = i;
             }
-            return lastNumber;
+            return currNumber;
         }
 
         internal override void ConvertTestDataToUseful(string testDataKey)
