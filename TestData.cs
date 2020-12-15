@@ -169,7 +169,7 @@ namespace AdventOfCode
         };
 
         // Testcases for solution1 (get the 2020th number)
-        public static Dictionary<string, long> Dec15Part1 = new Dictionary<string, long>
+        public static Dictionary<string, int> Dec15Part1 = new Dictionary<string, int>
         {
             {"1,3,2", 1 },
             {"2,1,3", 10 },
@@ -182,7 +182,7 @@ namespace AdventOfCode
 
 
         // same as before but get the 30.000.000th number
-        public static Dictionary<string, long> Dec15Part2 = new Dictionary<string, long>
+        public static Dictionary<string, int> Dec15Part2 = new Dictionary<string, int>
         {
             {"1,3,2", 2_578 },
             {"2,1,3", 3_544_142 },
