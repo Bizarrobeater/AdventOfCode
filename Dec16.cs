@@ -84,6 +84,8 @@ namespace AdventOfCode
             ValidRanges validRanges;
             // dictionary of potential positions for keys
             Dictionary<string, List<int>> potentPos = new Dictionary<string, List<int>>();
+            // Keys that has only 1 position
+            List<string> lockedKeys = new List<string>();
 
             public Dictionary<string, List<int>> PotentialPositions { get => potentPos; }
 
@@ -132,8 +134,9 @@ namespace AdventOfCode
                     updated = false;
                     foreach (KeyValuePair<string, List<int>> kvp in potentPos)
                     {
-                        if (kvp.Value.Count == 1)
+                        if (kvp.Value.Count == 1 && !lockedKeys.Contains(kvp.Key))
                         {
+                            lockedKeys.Add(kvp.Key);
                             updated = UpdatePotentialPositions(kvp.Key, kvp.Value[0]) || updated;
                         }
                     }
@@ -148,7 +151,7 @@ namespace AdventOfCode
                 bool updated = false;
                 foreach (string key in potentPos.Keys)
                 {
-                    if (key != foundKey || potentPos[key].Count != 1)
+                    if (!lockedKeys.Contains(key))
                     {
                         // if a position is removed and updated == false, then updated changes to true,
                         // if a position is not removed but updated is already true, then updated stays true
