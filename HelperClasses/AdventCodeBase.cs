@@ -15,8 +15,6 @@ namespace AdventOfCode
         string _dataSourceFile;
         internal List<T> dataList;
 
-
-
         // For main data
         public AdventCodeBase(Func<string, List<T>> DataReader)
         {

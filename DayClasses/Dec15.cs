@@ -12,7 +12,6 @@ namespace AdventOfCode
 
         public Dec15(Dictionary<string, int> testDict) : base(testDict)
         {
-
         }
 
         public Dec15() : base(ReadDataFile.FileToListSimple)
@@ -39,9 +38,9 @@ namespace AdventOfCode
         private int GenerelSolution(int maxTurn)
         {
             Dictionary<int, int> memoryGame = new Dictionary<int, int>();
-            
+            int startLength = startNumbs.Count;
             // Initialising the game with the provided starting numbers
-            for (int i = 0; i < startNumbs.Count; i++)
+            for (int i = 0; i < startLength; i++)
             {
                 memoryGame[startNumbs[i]] = i + 1;
             }
@@ -50,7 +49,7 @@ namespace AdventOfCode
             int nextNumber = 0;
             int lastAppeared;
 
-            for (int i = startNumbs.Count + 1; i <= maxTurn; i++)
+            for (int i = startLength + 1; i <= maxTurn; i++)
             {
                 currNumber = nextNumber;
                 if (memoryGame.TryGetValue(currNumber, out lastAppeared))

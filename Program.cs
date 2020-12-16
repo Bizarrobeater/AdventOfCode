@@ -13,11 +13,11 @@ namespace AdventOfCode
             //WithTestDataPart1();
             //WithTestDataPart2();
 
-            //TestManyCases();
+            TestManyCases();
             
 
-            var test = new Dec01();
-            test.Timer("Solution1", test.Solution1);
+            //var test = new Dec15();
+            //test.Timer("Solution1", test.Solution1);
             //test.Timer("Solution2", test.Solution2);
         }
 
