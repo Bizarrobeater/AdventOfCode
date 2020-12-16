@@ -12,24 +12,23 @@ namespace AdventOfCode
             //WithTestDataPart1();
             //WithTestDataPart2();
 
-            TestManyCases();
+            //TestManyCases();
 
-
-            //var test = new Dec15();
-            //test.Timer("Solution1", test.Solution1);
-            //test.Timer("Solution2", test.Solution2);
+            var test = new Dec16();
+            test.Timer("Solution1", test.Solution1);
+            test.Timer("Solution2", test.Solution2);
         }
 
         static void WithTestDataPart1()
         {
-            var test = new Dec14(TestData.Dec14Part1);
+            var test = new Dec16(TestData.Dec16Part1);
             Console.WriteLine(test.Solution1());
             //test.test();
         }
 
         static void WithTestDataPart2()
         {
-            var test = new Dec14(TestData.Dec14Part2);
+            var test = new Dec16(TestData.Dec16Part2);
             Console.WriteLine(test.Solution2());
             //test.test();
         }
@@ -38,10 +37,6 @@ namespace AdventOfCode
         {
             var test = new Dec15(TestData.Dec15Part2);
             test.TestAllCases(test.Solution2);
-
         }
-
-
-
     }
 }
