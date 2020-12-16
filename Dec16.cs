@@ -12,7 +12,7 @@ namespace AdventOfCode
         ValidRanges validRanges;
         List<int> myTicket; 
 
-        public Dec16() : base(ReadDataFile.FileToListDoubleNewlineDiff)
+        public Dec16() : base(ReadDataFile.FileToListDoubleNewline)
         {
             CommonConstructor();
         }

@@ -6,18 +6,20 @@ using System.Linq;
 namespace AdventOfCode
 {
     static class ReadDataFile
-    {   
+    {
+        static string inputPath = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
+
         // splits datafile into list of string by every line
         static public List<string> FileToListSimple(string fileName)
         {
-            List<string> dataStrList = File.ReadAllLines(@"DataSources\" + fileName).ToList();
+            List<string> dataStrList = File.ReadAllLines(inputPath +"\\DataSources\\" + fileName).ToList();
             return dataStrList;
         }
 
         // splits datafile into a list of strings everytime there is a double newline (\r\n)
         static public List<string> FileToListDoubleNewline(string fileName)
         {
-            string allfile = File.ReadAllText(@"DataSources\" + fileName);
+            string allfile = File.ReadAllText(inputPath + "\\DataSources\\" + fileName);
             List<string> dataStrList = allfile.Split(Environment.NewLine + Environment.NewLine, StringSplitOptions.RemoveEmptyEntries).ToList();
             return dataStrList;
         }
@@ -25,7 +27,7 @@ namespace AdventOfCode
         // Splits datafile into a list of string everytime there's a double newline (\n\n)
         static public List<string> FileToListDoubleNewlineDiff(string fileName)
         {
-            string allfile = File.ReadAllText(@"DataSources\" + fileName);
+            string allfile = File.ReadAllText(inputPath + "\\DataSources\\" + fileName);
             List<string> dataStrList = allfile.Split("\n\n", StringSplitOptions.RemoveEmptyEntries).ToList();
             return dataStrList;
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.IO;
 
 namespace AdventOfCode
 {
@@ -13,10 +14,11 @@ namespace AdventOfCode
             //WithTestDataPart2();
 
             //TestManyCases();
+            
 
-            var test = new Dec16();
+            var test = new Dec15();
             test.Timer("Solution1", test.Solution1);
-            test.Timer("Solution2", test.Solution2);
+            //test.Timer("Solution2", test.Solution2);
         }
 
         static void WithTestDataPart1()
