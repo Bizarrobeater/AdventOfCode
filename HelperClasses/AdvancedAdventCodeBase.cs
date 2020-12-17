@@ -16,7 +16,7 @@ namespace AdventOfCode
         }
 
         // for expanded testData
-        public AdvancedAdventCodeBase(Dictionary<T, U> testDict) : base()
+        public AdvancedAdventCodeBase(Dictionary<T, U> testDict)
         {
             this.testDict = testDict;
         }
