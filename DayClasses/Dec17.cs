@@ -38,5 +38,15 @@ namespace AdventOfCode
             }
             return pocketDimension.ActiveCubes;
         }
+
+        public long testSolution1()
+        {
+            HelperClassses.ConwayCubeManager pocketDimension = new HelperClassses.ConwayCubeManager(dataList);
+            while (pocketDimension.Cycle <= 6)
+            {
+                pocketDimension.NewCycle();
+            }
+            return pocketDimension.ActiveCubes;
+        }
     }
 }
