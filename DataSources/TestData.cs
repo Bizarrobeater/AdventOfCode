@@ -225,5 +225,12 @@ namespace AdventOfCode
             "15,1,5\n" + 
             "5,14,9",
         };
+
+        public static List<string> Dec17Part1 = new List<string>()
+        {
+            ".#.",
+            "..#",
+            "###",
+        };
     }
 }
