@@ -17,6 +17,7 @@ namespace AdventOfCode
         {
         }
 
+        // Correct answer: 211 - about 440ms
         public override long Solution1()
         {
             AllCubes pocketDimension = new AllCubes(dataList);
@@ -27,6 +28,7 @@ namespace AdventOfCode
             return pocketDimension.ActiveCubes;
         }
 
+        // Correct Answer: 1952 - about 1 min 30 seconds
         public override long Solution2()
         {
             AllHyperCubes pocketDimension = new AllHyperCubes(dataList);
