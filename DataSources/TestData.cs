@@ -213,16 +213,16 @@ namespace AdventOfCode
 
         public static List<string> Dec16Part2 = new List<string>
         {
-            "class: 0-1 or 4-19\n" + 
+            "class: 0-1 or 4-19\n" +
             "row: 0-5 or 8-19\n" +
             "seat: 0-13 or 16-19",
 
-            "your ticket:\n" + 
+            "your ticket:\n" +
             "11,12,13",
 
-            "nearby tickets:\n" + 
-            "3,9,18\n" + 
-            "15,1,5\n" + 
+            "nearby tickets:\n" +
+            "3,9,18\n" +
+            "15,1,5\n" +
             "5,14,9",
         };
 
@@ -231,6 +231,24 @@ namespace AdventOfCode
             ".#.",
             "..#",
             "###",
+        };
+
+        public static Dictionary<string, long> Dec18Part1 = new Dictionary<string, long>
+        {
+            { "1 + (2 * 3) + (4 * (5 + 6))", 51 },
+            { "2 * 3 + (4 * 5)", 26 },
+            { "5 + (8 * 3 + 9 + 3 * 4 * 3)", 437 },
+            { "5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4))", 12_240 },
+            { "((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2", 13_632 },
+        };
+
+        public static Dictionary<string, long> Dec18Part2 = new Dictionary<string, long>
+        {
+            { "1 + (2 * 3) + (4 * (5 + 6))", 51 },
+            { "2 * 3 + (4 * 5)", 46 },
+            { "5 + (8 * 3 + 9 + 3 * 4 * 3)", 1_445 },
+            { "5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4))", 669_060 },
+            { "((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2", 23_340 },
         };
     }
 }

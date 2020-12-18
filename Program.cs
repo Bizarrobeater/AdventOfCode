@@ -16,8 +16,8 @@ namespace AdventOfCode
             //TestManyCases();
             
 
-            var test = new Dec17();
-            test.Timer("Solution1", test.Solution1);
+            var test = new Dec18();
+            //test.Timer("Solution1", test.Solution1);
             test.Timer("Solution2", test.Solution2);
         }
 
@@ -37,7 +37,7 @@ namespace AdventOfCode
 
         static void TestManyCases()
         {
-            var test = new Dec15(TestData.Dec15Part2);
+            var test = new Dec18(TestData.Dec18Part2);
             test.TestAllCases(test.Solution2);
         }
     }
