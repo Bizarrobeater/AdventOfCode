@@ -110,9 +110,9 @@ namespace AdventOfCode
             while (addMatch.Success)
             {
                 int indexFound = addMatch.Index;
-                int matchLength = addMatch.Groups[0].Length;
-                string newSum = CalculatePartExpressionNormal(addMatch.Groups[0].Value).ToString();
-                expression = expression.Remove(indexFound, matchLength).Insert(indexFound, newSum);
+                string foundGroup = addMatch.Groups[0].Value;
+                string newSum = CalculatePartExpressionNormal(foundGroup).ToString();
+                expression = expression.Remove(indexFound, foundGroup.Length).Insert(indexFound, newSum);
                 addMatch = addRx.Match(expression);
             }
             return CalculatePartExpressionNormal(expression);
