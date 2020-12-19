@@ -250,5 +250,31 @@ namespace AdventOfCode
             { "5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4))", 669_060 },
             { "((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2", 23_340 },
         };
+
+        // Correct answers is 2
+        public static List<string> Dec19Part1 = new List<string>
+        {
+            "0: 4 1 5\n" +
+            "1: 2 3 | 3 2\n" +
+            "2: 4 4 | 5 5\n" +
+            "3: 4 5 | 5 4\n" +
+            "4: \"a\"\n" +
+            "5: \"b\"",
+
+            "ababbb\n" +
+            "bababa\n" +
+            "abbbab\n" +
+            "aaabbb\n" +
+            "aaaabbb",
+        };
+
+        public static List<string> Dec19Part2 = new List<string>
+        {
+
+
+
+
+
+        };
     }
 }
