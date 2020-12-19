@@ -23,7 +23,7 @@ namespace AdventOfCode
             Rules rules = new Rules(dataList[0]);
 
             int validCount = 0;
-            List<string> messages = dataList[1].Split("\n", StringSplitOptions.RemoveEmptyEntries).ToList();
+            List<string> messages = dataList[1].Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries).ToList();
             foreach (string message in messages)
             {
                 if (rules.TestValidMessage(message))
@@ -38,7 +38,7 @@ namespace AdventOfCode
             Rules rules = new Rules(dataList[0], true);
 
             int validCount = 0;
-            List<string> messages = dataList[1].Split("\n", StringSplitOptions.RemoveEmptyEntries).ToList();
+            List<string> messages = dataList[1].Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries).ToList();
             foreach (string message in messages)
             {
                 if (rules.TestValidMessage(message))
@@ -53,7 +53,7 @@ namespace AdventOfCode
             Rule RuleZero;
             public Rules(string listOfRules, bool sol2 = false)
             {
-                List<string> primitiveList = listOfRules.Split("\n").ToList();
+                List<string> primitiveList = listOfRules.Split(Environment.NewLine).ToList();
                 // Creates the rules and adds them to the hashset
                 foreach (string ruleString in primitiveList)
                 {
@@ -71,8 +71,9 @@ namespace AdventOfCode
             public bool TestValidMessage(string message)
             {
                 int toIndex = 0;
-                bool validToIndex = RuleZero.ValidateMessage(message, ref toIndex);
-                return validToIndex && toIndex == message.Length;
+                int messLen = message.Length;
+                bool validToIndex = RuleZero.ValidateMessage(message, messLen, 0, ref toIndex);
+                return validToIndex && toIndex == messLen;
             }
         }
 
@@ -84,7 +85,11 @@ namespace AdventOfCode
 
             public Rule[][] RuleArray { get; private set; }
 
+            HashSet<string> potenPatterns { get; set; }
+
             private bool sol2 {get; init; }
+
+            private bool looper { get; set; }
  
 
             private Rule(int id)
@@ -94,6 +99,8 @@ namespace AdventOfCode
 
             public Rule(string ruleString, bool sol2 = false)
             {
+                potenPatterns = null;
+                looper = false;
                 this.sol2 = sol2;
                 string[] splitRuleString = ruleString.Split(": ");
                 stringRule = splitRuleString[1];
@@ -140,49 +147,26 @@ namespace AdventOfCode
                 }
             }
 
-            //private bool TestRules(string message)
-            //{
-            //    int currIndex = 0;
-            //    bool validMessage = false;
-            //    for (int i = 0; i < RuleArray.Length; i++)
-            //    {
-            //        for (int j = 0; j < RuleArray[i].Length; j++)
-            //        {
-            //            if (RuleArray[i][j].ValidateMessage(messageArray[i]))
-            //                validMessage = true;
-            //            else
-            //            {
-            //                validMessage = false;
-            //                break;
-            //            }
-            //        }
-            //        if (validMessage)
-            //            break;
-            //    }
-            //    return validMessage;
-            //}
-
-            public bool ValidateMessage(string message, ref int toIndex)
+            public bool ValidateMessage(string message, int origMessLen, int depth, ref int toIndex)
             {
-               
-                if (isBaseRule && stringRule == message[0].ToString())
+   
+                if (message == "" || depth > origMessLen || (isBaseRule && stringRule != message[0].ToString()))
+                    return false;
+                else if (isBaseRule && stringRule == message[0].ToString())
                 {
                     toIndex++;
                     return true;
-                }   
-                else if (isBaseRule && stringRule != message[0].ToString())
-                    return false;
+                }
 
                 int currIndex;
-                int tempIndex;
+                int loopIndex = -1;
                 bool validMessage = false;
                 for (int i = 0; i < RuleArray.Length; i++)
                 {
                     currIndex = 0;
-                    tempIndex = currIndex;
                     for (int j = 0; j < RuleArray[i].Length; j++)
                     {
-                        if (RuleArray[i][j].ValidateMessage(message.Substring(tempIndex), ref tempIndex))
+                        if (RuleArray[i][j].ValidateMessage(message.Substring(currIndex), origMessLen, depth + 1, ref currIndex))
                             validMessage = true;
                         else
                         {
@@ -190,13 +174,20 @@ namespace AdventOfCode
                             break;
                         }
                     }
-                    if (validMessage)
-                    {
-                        toIndex += tempIndex;
-                        break;
-                    }
-                        
+                    //if (validMessage)
+                    //{
+                    //    toIndex += currIndex;
+                    //    break;
+                    //}
+                    loopIndex = validMessage ? currIndex : loopIndex;                        
                 }
+
+                if (loopIndex != -1)
+                {
+                    toIndex += loopIndex != -1 ? loopIndex : 0;
+                    validMessage = true;
+                }
+
                 return validMessage;
             }
 
