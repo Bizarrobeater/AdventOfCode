@@ -10,27 +10,27 @@ namespace AdventOfCode
     {
         static void Main(string[] args)
         {
-            //WithTestDataPart1();
-            //WithTestDataPart2();
+            WithTestDataPart1();
+            WithTestDataPart2();
 
             //TestManyCases();
             
 
-            var test = new Dec18();
+            //var test = new Dec19();
             //test.Timer("Solution1", test.Solution1);
-            test.Timer("Solution2", test.Solution2);
+            //test.Timer("Solution2", test.Solution2);
         }
 
         static void WithTestDataPart1()
         {
-            var test = new Dec17(TestData.Dec17Part1);
+            var test = new Dec19(TestData.Dec19Part2);
             Console.WriteLine(test.Solution1());
             //test.test();
         }
 
         static void WithTestDataPart2()
         {
-            var test = new Dec17(TestData.Dec17Part1);
+            var test = new Dec19(TestData.Dec19Part2);
             Console.WriteLine(test.Solution2());
             //test.test();
         }
